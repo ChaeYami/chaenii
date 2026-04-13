@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: chaenii-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: chaenii
+      POSTGRES_USER: chaenii
+      POSTGRES_PASSWORD: chaenii
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chaenii"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: chaenii-backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: chaenii
+      DB_USER: chaenii
+      DB_PASSWORD: chaenii
+      JWT_SECRET: ${JWT_SECRET:-change-this-in-production-min-32-characters!!}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: chaenii-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8080
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

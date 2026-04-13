@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #0D0D0F;
+  --color-surface: #1A1A24;
+  --color-surface-2: #13131A;
+  --color-border: #2A2A3A;
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-purple: #8B5CF6;
+  --color-pink: #F472B6;
+  --color-lavender: #A78BFA;
+}
+
+body {
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+}
+
+::selection {
+  background: var(--color-purple);
+  color: var(--color-text-primary);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
