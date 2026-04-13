@@ -45,7 +45,7 @@ export default function Hero() {
             variants={fadeUp}
             transition={transition}
           >
-            1인 풀스택 개발자
+            풀스택 개발자
           </motion.p>
 
           <motion.p
@@ -53,7 +53,7 @@ export default function Hero() {
             variants={fadeUp}
             transition={transition}
           >
-            기획부터 설계, 개발, 배포까지 혼자 합니다
+            기획부터 설계, 개발, 배포까지
           </motion.p>
 
           <motion.div
