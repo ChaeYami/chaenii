@@ -1,5 +1,12 @@
 import { Suspense } from "react";
-import { Hero, About, Skills, Projects, CurrentlyBuilding } from "@/components/sections";
+import {
+  Hero,
+  About,
+  Skills,
+  Projects,
+  CurrentlyBuilding,
+  GuestbookSection,
+} from "@/components/sections";
 
 export default function Home() {
   return (
@@ -13,6 +20,7 @@ export default function Home() {
       <Suspense>
         <CurrentlyBuilding />
       </Suspense>
+      <GuestbookSection />
     </main>
   );
 }
