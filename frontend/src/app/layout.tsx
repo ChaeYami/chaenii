@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { Navbar, Footer } from "@/components/layout";
+import Providers from "@/components/layout/Providers";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -33,9 +34,11 @@ export default function RootLayout({
       <body
         className={`${pretendard.variable} ${dmMono.variable} font-sans antialiased`}
       >
-        <Navbar />
-        <div className="pt-16">{children}</div>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <div className="pt-16">{children}</div>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
