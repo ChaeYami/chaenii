@@ -25,6 +25,18 @@ body {
   color: var(--color-text-primary);
 }
 
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor::after {
+  content: "|";
+  color: var(--color-purple);
+  animation: blink-caret 0.8s steps(1) infinite;
+  margin-left: 2px;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
