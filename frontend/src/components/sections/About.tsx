@@ -6,8 +6,8 @@ import { Card } from "@/components/ui";
 
 const CARDS = [
   { emoji: "⚾", title: "KBO 야구", desc: "SSG Landers 팬. 야구장은 에너지 충전소." },
-  { emoji: "🐶", title: "강아지", desc: "세상에서 제일 귀여운 존재. 반려견 바보." },
-  { emoji: "💻", title: "1인개발", desc: "아이디어를 직접 만들고, 직접 운영합니다." },
+  { emoji: "🎮", title: "게임", desc: "여가 시간엔 게임으로 리프레시." },
+  { emoji: "🛠️", title: "사이드 프로젝트", desc: "배운 걸 직접 만들어 보면서 익히는 걸 좋아합니다." },
 ];
 
 const container = {
@@ -42,8 +42,7 @@ export default function About() {
           variants={fadeUp}
           transition={transition}
         >
-          {/* TODO: 자기소개 텍스트 */}
-          안녕하세요. 기획부터 배포까지 직접 하는 1인 풀스택 개발자 채야미입니다.
+          백엔드부터 모바일까지 다루는 풀스택 개발자 채야미입니다. 새로운 기술을 배우고 직접 사이드 프로젝트로 만들어보는 걸 좋아합니다.
         </motion.p>
 
         <motion.div

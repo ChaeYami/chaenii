@@ -14,18 +14,16 @@ export default function DashboardLayout({
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    // Check if access_token cookie exists (httpOnly cookies can't be read,
-    // so we attempt a protected API call to verify auth)
-    fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080"}/api/guestbook/1/hide`, {
-      method: "OPTIONS",
-      credentials: "include",
-    })
-      .then(() => setChecked(true))
-      .catch(() => router.replace("/admin"));
-
-    // Simple check: if we got here, assume authenticated.
-    // The API will return 401/403 on actual calls if not.
-    setChecked(true);
+    const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
+    fetch(`${API}/api/guestbook`, { credentials: "include" })
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          router.replace("/admin");
+        } else {
+          setChecked(true);
+        }
+      })
+      .catch(() => setChecked(true));
   }, [router]);
 
   const handleLogout = async () => {

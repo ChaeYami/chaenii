@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const NAV_ITEMS = [
   { label: "About", href: "#about" },
@@ -24,9 +25,9 @@ export default function Navbar() {
         ${scrolled ? "bg-surface/80 backdrop-blur-md border-b border-border" : "bg-transparent"}`}
     >
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <a href="#" className="text-lg font-bold tracking-tight">
+        <Link href="/" className="text-lg font-bold tracking-tight">
           chaenii<span className="text-purple">.me</span>
-        </a>
+        </Link>
 
         {/* Desktop */}
         <ul className="hidden items-center gap-8 md:flex">

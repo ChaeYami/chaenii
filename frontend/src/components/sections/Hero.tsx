@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { fadeUp, transition } from "@/hooks/useScrollAnimation";
-import DogCharacter from "./DogCharacter";
 import { Button, Badge } from "@/components/ui";
 
 const container = {
@@ -69,23 +68,15 @@ export default function Hero() {
             variants={fadeUp}
             transition={transition}
           >
-            <a href="https://github.com/chaenii" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/ChaeYami" target="_blank" rel="noopener noreferrer">
               <Button variant="default">GitHub</Button>
             </a>
-            <a href="#" target="_blank" rel="noopener noreferrer">
+            <a href="https://chaeyami.tistory.com/" target="_blank" rel="noopener noreferrer">
               <Button variant="default">Blog</Button>
             </a>
           </motion.div>
         </div>
 
-        {/* Dog */}
-        <motion.div
-          className="flex-shrink-0"
-          variants={fadeUp}
-          transition={{ ...transition, delay: 0.3 }}
-        >
-          <DogCharacter />
-        </motion.div>
       </motion.div>
     </section>
   );

@@ -8,13 +8,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<Variant, string> = {
   default:
-    "border border-purple/40 text-purple hover:bg-purple/10 hover:border-purple",
+    "border border-purple/30 text-purple/80 bg-purple/5 hover:bg-purple/10 hover:border-purple/50 hover:text-purple",
   primary:
-    "bg-purple text-white hover:bg-purple/90",
+    "bg-purple/80 text-white hover:bg-purple/70 backdrop-blur-sm",
   ghost:
     "text-text-secondary hover:text-text-primary hover:bg-surface",
   danger:
-    "border border-red-500/40 text-red-400 hover:bg-red-500/10 hover:border-red-500",
+    "border border-red-500/30 text-red-400/80 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/50",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(

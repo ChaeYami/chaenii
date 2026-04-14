@@ -9,9 +9,9 @@ const TABS = ["Backend", "Frontend", "Infra", "Tool"] as const;
 type Tab = (typeof TABS)[number];
 
 const SKILLS: Record<Tab, string[]> = {
-  Backend: ["Java 17", "Spring Boot", "JPA", "PostgreSQL", "Redis", "QueryDSL", "Flyway"],
-  Frontend: ["React Native", "Expo", "TypeScript", "Next.js", "Tailwind", "React Query"],
-  Infra: ["AWS ECS", "S3", "CloudFront", "RDS", "Docker", "GitHub Actions"],
+  Backend: ["Java 17", "Spring Boot", "Spring Security", "JWT", "JPA", "QueryDSL", "MapStruct", "Flyway", "PostgreSQL", "MySQL", "Redis", "Python", "Django"],
+  Frontend: ["React Native", "Expo", "Expo Router", "TypeScript", "JavaScript", "Next.js", "Tailwind", "React Query", "Zustand", "Axios"],
+  Infra: ["AWS ECS Fargate", "AWS EC2", "S3", "CloudFront", "Route 53", "RDS", "Secrets Manager", "Docker", "GitHub Actions", "NginX", "Firebase FCM", "EAS Build"],
   Tool: ["Git", "Notion", "Figma"],
 };
 

@@ -1,0 +1,26 @@
+{
+  "Comment": "chaenii.me security headers",
+  "SecurityHeadersConfig": {
+    "StrictTransportSecurity": {
+      "Override": true,
+      "IncludeSubdomains": true,
+      "Preload": false,
+      "AccessControlMaxAgeSec": 63072000
+    },
+    "XFrameOptions": {
+      "Override": true,
+      "FrameOption": "DENY"
+    },
+    "XContentTypeOptions": {
+      "Override": true
+    },
+    "ReferrerPolicy": {
+      "Override": true,
+      "ReferrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "ContentSecurityPolicy": {
+      "Override": true,
+      "ContentSecurityPolicy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https:; font-src 'self'; frame-ancestors 'none'"
+    }
+  }
+}
