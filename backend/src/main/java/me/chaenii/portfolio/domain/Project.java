@@ -52,6 +52,9 @@ public class Project {
     @Column(name = "detail_content", columnDefinition = "TEXT")
     private String detailContent;
 
+    @Column(name = "sort_order", nullable = false)
+    private int sortOrder;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -77,6 +80,7 @@ public class Project {
         p.githubUrl = githubUrl;
         p.notionUrl = notionUrl;
         p.detailContent = detailContent;
+        p.sortOrder = 0;
         p.createdAt = LocalDateTime.now();
         p.updatedAt = LocalDateTime.now();
         return p;
@@ -101,6 +105,10 @@ public class Project {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void updateSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
     public Long getId() { return id; }
     public String getSlug() { return slug; }
     public String getName() { return name; }
@@ -114,6 +122,7 @@ public class Project {
     public String getGithubUrl() { return githubUrl; }
     public String getNotionUrl() { return notionUrl; }
     public String getDetailContent() { return detailContent; }
+    public int getSortOrder() { return sortOrder; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

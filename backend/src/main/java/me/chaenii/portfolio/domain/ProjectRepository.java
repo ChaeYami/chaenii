@@ -13,7 +13,11 @@ public interface ProjectRepository {
 
     List<Project> findAll();
 
+    List<Project> findAllByOrderBySortOrderAsc();
+
     List<Project> findByCategory(String category);
+
+    List<Project> findByCategoryOrderBySortOrderAsc(String category);
 
     void delete(Project project);
 }

@@ -23,8 +23,8 @@ public class ProjectService {
 
     public List<ProjectResponse> getProjects(String category) {
         List<Project> projects = (category == null || category.isBlank())
-                ? projectRepository.findAll()
-                : projectRepository.findByCategory(category);
+                ? projectRepository.findAllByOrderBySortOrderAsc()
+                : projectRepository.findByCategoryOrderBySortOrderAsc(category);
         return projects.stream().map(ProjectResponse::from).toList();
     }
 
@@ -61,6 +61,14 @@ public class ProjectService {
     public void delete(Long id) {
         Project project = findOrThrow(id);
         projectRepository.delete(project);
+    }
+
+    @Transactional
+    public void reorder(List<Long> ids) {
+        for (int i = 0; i < ids.size(); i++) {
+            Project project = findOrThrow(ids.get(i));
+            project.updateSortOrder(i);
+        }
     }
 
     private Project findOrThrow(Long id) {

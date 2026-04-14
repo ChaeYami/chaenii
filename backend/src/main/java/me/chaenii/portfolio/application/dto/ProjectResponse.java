@@ -17,7 +17,8 @@ public record ProjectResponse(
         Integer progress,
         String githubUrl,
         String notionUrl,
-        String detailContent
+        String detailContent,
+        int sortOrder
 ) {
     public static ProjectResponse from(Project project) {
         return new ProjectResponse(
@@ -33,7 +34,8 @@ public record ProjectResponse(
                 project.getProgress(),
                 project.getGithubUrl(),
                 project.getNotionUrl(),
-                project.getDetailContent()
+                project.getDetailContent(),
+                project.getSortOrder()
         );
     }
 }

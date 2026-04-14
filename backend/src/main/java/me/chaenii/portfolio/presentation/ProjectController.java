@@ -1,8 +1,6 @@
 package me.chaenii.portfolio.presentation;
 
-import jakarta.validation.Valid;
 import me.chaenii.portfolio.application.ProjectService;
-import me.chaenii.portfolio.application.dto.ProjectRequest;
 import me.chaenii.portfolio.application.dto.ProjectResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,21 +24,5 @@ public class ProjectController {
     @GetMapping("/{slug}")
     public ApiResponse<ProjectResponse> detail(@PathVariable String slug) {
         return ApiResponse.ok(projectService.getProject(slug));
-    }
-
-    @PostMapping
-    public ApiResponse<ProjectResponse> create(@Valid @RequestBody ProjectRequest request) {
-        return ApiResponse.ok(projectService.create(request));
-    }
-
-    @PutMapping("/{id}")
-    public ApiResponse<ProjectResponse> update(@PathVariable Long id, @Valid @RequestBody ProjectRequest request) {
-        return ApiResponse.ok(projectService.update(id, request));
-    }
-
-    @DeleteMapping("/{id}")
-    public ApiResponse<Void> delete(@PathVariable Long id) {
-        projectService.delete(id);
-        return ApiResponse.ok();
     }
 }

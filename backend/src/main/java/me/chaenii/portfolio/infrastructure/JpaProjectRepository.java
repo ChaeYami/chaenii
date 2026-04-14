@@ -13,5 +13,11 @@ public interface JpaProjectRepository extends JpaRepository<Project, Long>, Proj
     Optional<Project> findBySlug(String slug);
 
     @Override
+    List<Project> findAllByOrderBySortOrderAsc();
+
+    @Override
     List<Project> findByCategory(String category);
+
+    @Override
+    List<Project> findByCategoryOrderBySortOrderAsc(String category);
 }
