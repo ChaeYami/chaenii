@@ -10,9 +10,9 @@
   --color-text-primary: #F8FAFC;
   --color-text-secondary: #94A3B8;
   --color-text-muted: #64748B;
-  --color-purple: #D29FFF;
+  --color-purple: 210 159 255;
   --color-pink: #D97BA8;
-  --color-lavender: #D29FFF;
+  --color-lavender: 210 159 255;
 }
 
 body {
@@ -21,7 +21,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-purple);
+  background: rgb(var(--color-purple));
   color: var(--color-text-primary);
 }
 
@@ -32,7 +32,7 @@ body {
 
 .typing-cursor::after {
   content: "|";
-  color: var(--color-purple);
+  color: rgb(var(--color-purple));
   animation: blink-caret 0.8s steps(1) infinite;
   margin-left: 2px;
 }
