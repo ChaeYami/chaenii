@@ -170,10 +170,10 @@ export default function GuestbookSection() {
   const entries = data?.pages.flatMap((p) => p.content) ?? [];
 
   return (
-    <section id="guestbook" className="border-t border-border py-24">
+    <section id="guestbook" className="py-24">
       <motion.div
         ref={ref}
-        className="mx-auto max-w-3xl px-6"
+        className="mx-auto max-w-3xl border-t border-border px-6 pt-24"
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={container}

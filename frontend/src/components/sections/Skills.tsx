@@ -27,10 +27,10 @@ export default function Skills() {
   const { ref, isInView } = useScrollAnimation();
 
   return (
-    <section className="border-t border-border py-24">
+    <section className="py-24">
       <motion.div
         ref={ref}
-        className="mx-auto max-w-5xl px-6"
+        className="mx-auto max-w-5xl border-t border-border px-6 pt-24"
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         variants={container}

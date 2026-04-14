@@ -5,9 +5,9 @@ import { useScrollAnimation, fadeUp, transition } from "@/hooks/useScrollAnimati
 import { Card } from "@/components/ui";
 
 const CARDS = [
-  { emoji: "⚾", title: "KBO 야구", desc: "SSG Landers 팬. 야구장은 에너지 충전소." },
-  { emoji: "🎮", title: "게임", desc: "여가 시간엔 게임으로 리프레시." },
-  { emoji: "🛠️", title: "사이드 프로젝트", desc: "배운 걸 직접 만들어 보면서 익히는 걸 좋아합니다." },
+  { emoji: "⚾", title: "SSG Landers", desc: "스트레스 원인이자 스트레스 해소제." },
+  { emoji: "🎮", title: "게임", desc: "두 번재 스트레스 해소제. \n언젠간 내 게임을 만들 거야." },
+  { emoji: "🛠️", title: "개발", desc: "일이자 취미. \n좋아하는 걸 직업으로 갖는 행복." },
 ];
 
 const container = {
@@ -42,7 +42,17 @@ export default function About() {
           variants={fadeUp}
           transition={transition}
         >
-          백엔드부터 모바일까지 다루는 풀스택 개발자 채야미입니다. 새로운 기술을 배우고 직접 사이드 프로젝트로 만들어보는 걸 좋아합니다.
+
+          웹 애플리케이션 개발을 중심으로  
+          <br />
+프론트엔드와 백엔드를 함께 다루고 있는 개발자입니다.  
+<br /> 
+<br />
+업무 시스템 개발과 운영 경험을 바탕으로,  
+<br />
+모바일 앱 개발까지 확장하며 다양한 서비스를 구현하고 있습니다.
+
+   
         </motion.p>
 
         <motion.div
@@ -58,7 +68,7 @@ export default function About() {
               <Card className="h-full">
                 <span className="text-3xl">{card.emoji}</span>
                 <h3 className="mt-3 text-lg font-semibold">{card.title}</h3>
-                <p className="mt-1 text-sm text-text-secondary">{card.desc}</p>
+                <p className="mt-1 whitespace-pre-line text-sm text-text-secondary">{card.desc}</p>
               </Card>
             </motion.div>
           ))}
