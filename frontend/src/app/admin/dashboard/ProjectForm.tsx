@@ -29,9 +29,10 @@ interface Props {
   onSubmit: (data: ProjectFormData) => void;
   onCancel: () => void;
   isPending: boolean;
+  error?: string | null;
 }
 
-export default function ProjectForm({ initial, onSubmit, onCancel, isPending }: Props) {
+export default function ProjectForm({ initial, onSubmit, onCancel, isPending, error }: Props) {
   const [form, setForm] = useState<ProjectFormData>(emptyForm);
   const [skillsInput, setSkillsInput] = useState("");
 
@@ -167,6 +168,10 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending }: 
           preview="live"
         />
       </div>
+
+      {error && (
+        <p className="rounded-lg bg-red-500/10 px-4 py-2 text-sm text-red-400">{error}</p>
+      )}
 
       <div className="flex justify-end gap-3 pt-2">
         <Button type="button" variant="ghost" onClick={onCancel}>

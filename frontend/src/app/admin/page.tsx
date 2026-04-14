@@ -3,24 +3,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/api/auth";
-import { Button, Input } from "@/components/ui";
+import { Button, Input, useToast } from "@/components/ui";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setLoading(true);
     try {
       await login(username, password);
       router.push("/admin/dashboard");
     } catch {
-      setError("로그인에 실패했습니다.");
+      toast("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
     } finally {
       setLoading(false);
     }
@@ -45,8 +44,6 @@ export default function AdminLoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        {error && <p className="text-sm text-red-400">{error}</p>}
 
         <Button type="submit" variant="primary" className="w-full" disabled={loading}>
           {loading ? "로그인 중..." : "로그인"}

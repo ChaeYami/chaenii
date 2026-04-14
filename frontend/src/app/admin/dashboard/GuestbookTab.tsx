@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useGuestbooks, useAddReply, useDeleteReply, useHideGuestbook } from "@/hooks/useGuestbook";
-import { Button, Input, Skeleton } from "@/components/ui";
+import { Button, Input, Skeleton, useToast } from "@/components/ui";
 import type { GuestbookEntry } from "@/types/guestbook";
 
 function EntryRow({ entry }: { entry: GuestbookEntry }) {
@@ -11,12 +11,16 @@ function EntryRow({ entry }: { entry: GuestbookEntry }) {
   const addReply = useAddReply();
   const deleteReply = useDeleteReply();
   const hide = useHideGuestbook();
+  const { toast } = useToast();
 
   const handleAddReply = () => {
     if (!replyText.trim()) return;
     addReply.mutate(
       { id: entry.id, content: replyText },
-      { onSuccess: () => { setReplyText(""); setShowReplyForm(false); } }
+      {
+        onSuccess: () => { setReplyText(""); setShowReplyForm(false); toast("success", "답글이 등록되었습니다."); },
+        onError: (err) => { toast("error", err instanceof Error ? err.message : "답글 등록에 실패했습니다."); },
+      }
     );
   };
 
@@ -36,7 +40,10 @@ function EntryRow({ entry }: { entry: GuestbookEntry }) {
             <div className="mt-2 flex items-center gap-2 rounded bg-surface-2 px-3 py-2">
               <p className="flex-1 text-sm text-lavender">{entry.reply}</p>
               <button
-                onClick={() => deleteReply.mutate(entry.id)}
+                onClick={() => deleteReply.mutate(entry.id, {
+                  onSuccess: () => toast("success", "답글이 삭제되었습니다."),
+                  onError: (err) => toast("error", err instanceof Error ? err.message : "답글 삭제에 실패했습니다."),
+                })}
                 disabled={deleteReply.isPending}
                 className="shrink-0 text-xs text-text-muted hover:text-red-400 transition-colors"
               >
@@ -59,7 +66,10 @@ function EntryRow({ entry }: { entry: GuestbookEntry }) {
           <Button
             variant="danger"
             className="text-xs !px-2 !py-1"
-            onClick={() => hide.mutate(entry.id)}
+            onClick={() => hide.mutate(entry.id, {
+              onSuccess: () => toast("success", "숨김 처리되었습니다."),
+              onError: (err) => toast("error", err instanceof Error ? err.message : "숨김 처리에 실패했습니다."),
+            })}
             disabled={hide.isPending}
           >
             숨김

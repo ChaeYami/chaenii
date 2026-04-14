@@ -24,7 +24,7 @@ import {
   useDeleteProject,
   useReorderProjects,
 } from "@/hooks/useAdminProjects";
-import { Button, Badge, Skeleton } from "@/components/ui";
+import { Button, Badge, Skeleton, useToast } from "@/components/ui";
 import ProjectForm from "./ProjectForm";
 
 function SortableRow({
@@ -101,6 +101,8 @@ export default function ProjectsTab() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<AdminProject | null>(null);
   const [items, setItems] = useState<AdminProject[]>([]);
+  const [formError, setFormError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   // Sync items with fetched data
   const displayItems = items.length > 0 ? items : projects ?? [];
@@ -117,26 +119,41 @@ export default function ProjectsTab() {
     const newIndex = displayItems.findIndex((p) => p.id === over.id);
     const reordered = arrayMove(displayItems, oldIndex, newIndex);
     setItems(reordered);
-    reorder.mutate(reordered.map((p) => p.id));
+    reorder.mutate(reordered.map((p) => p.id), {
+      onError: (err) => {
+        toast("error", err instanceof Error ? err.message : "순서 변경에 실패했습니다.");
+        setItems([]);
+      },
+    });
   };
 
   const handleCreate = (data: ProjectFormData) => {
+    setFormError(null);
     createProject.mutate(data, {
       onSuccess: () => {
         setShowForm(false);
         setItems([]);
+        toast("success", "프로젝트가 등록되었습니다.");
+      },
+      onError: (err) => {
+        setFormError(err instanceof Error ? err.message : "저장에 실패했습니다.");
       },
     });
   };
 
   const handleUpdate = (data: ProjectFormData) => {
     if (!editing) return;
+    setFormError(null);
     updateProject.mutate(
       { id: editing.id, data },
       {
         onSuccess: () => {
           setEditing(null);
           setItems([]);
+          toast("success", "프로젝트가 수정되었습니다.");
+        },
+        onError: (err) => {
+          setFormError(err instanceof Error ? err.message : "저장에 실패했습니다.");
         },
       }
     );
@@ -144,7 +161,15 @@ export default function ProjectsTab() {
 
   const handleDelete = (id: number) => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
-    deleteProject.mutate(id, { onSuccess: () => setItems([]) });
+    deleteProject.mutate(id, {
+      onSuccess: () => {
+        setItems([]);
+        toast("success", "프로젝트가 삭제되었습니다.");
+      },
+      onError: (err) => {
+        toast("error", err instanceof Error ? err.message : "삭제에 실패했습니다.");
+      },
+    });
   };
 
   if (showForm || editing) {
@@ -155,8 +180,10 @@ export default function ProjectsTab() {
         onCancel={() => {
           setShowForm(false);
           setEditing(null);
+          setFormError(null);
         }}
         isPending={createProject.isPending || updateProject.isPending}
+        error={formError}
       />
     );
   }

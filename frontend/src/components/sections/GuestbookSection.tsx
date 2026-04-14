@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useScrollAnimation, fadeUp, transition } from "@/hooks/useScrollAnimation";
 import { useGuestbooks, useCreateGuestbook, useDeleteGuestbook } from "@/hooks/useGuestbook";
 import { guestbookSchema, type GuestbookFormData } from "@/lib/schema/guestbook";
-import { Button, Card, Input, Skeleton } from "@/components/ui";
+import { Button, Card, Input, Skeleton, useToast } from "@/components/ui";
 
 const container = {
   hidden: {},
@@ -20,6 +20,7 @@ function GuestbookForm() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const create = useCreateGuestbook();
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +35,13 @@ function GuestbookForm() {
     }
     setErrors({});
     create.mutate(result.data, {
-      onSuccess: () => setForm({ nickname: "", content: "", password: "" }),
+      onSuccess: () => {
+        setForm({ nickname: "", content: "", password: "" });
+        toast("success", "방명록이 등록되었습니다.");
+      },
+      onError: (err) => {
+        toast("error", err instanceof Error ? err.message : "방명록 등록에 실패했습니다.");
+      },
     });
   };
 
@@ -90,11 +97,20 @@ function GuestbookCard({
   const [showDelete, setShowDelete] = useState(false);
   const [password, setPassword] = useState("");
   const deleteMutation = useDeleteGuestbook();
+  const { toast } = useToast();
 
   const handleDelete = () => {
     deleteMutation.mutate(
       { id: entry.id, password },
-      { onSuccess: () => setShowDelete(false) }
+      {
+        onSuccess: () => {
+          setShowDelete(false);
+          toast("success", "방명록이 삭제되었습니다.");
+        },
+        onError: (err) => {
+          toast("error", err instanceof Error ? err.message : "삭제에 실패했습니다.");
+        },
+      }
     );
   };
 

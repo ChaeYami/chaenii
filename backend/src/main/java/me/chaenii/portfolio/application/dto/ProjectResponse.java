@@ -29,7 +29,7 @@ public record ProjectResponse(
                 project.getPeriod(),
                 project.getRole(),
                 project.getDescription(),
-                project.getSkills(),
+                List.copyOf(project.getSkills()),
                 project.getStatus(),
                 project.getProgress(),
                 project.getGithubUrl(),
