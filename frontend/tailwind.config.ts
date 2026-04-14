@@ -16,9 +16,9 @@ const config: Config = {
         "text-primary": "var(--color-text-primary)",
         "text-secondary": "var(--color-text-secondary)",
         "text-muted": "var(--color-text-muted)",
-        purple: "var(--color-purple)",
+        purple: "rgb(var(--color-purple) / <alpha-value>)",
         pink: "var(--color-pink)",
-        lavender: "var(--color-lavender)",
+        lavender: "rgb(var(--color-lavender) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-pretendard)", "system-ui", "sans-serif"],

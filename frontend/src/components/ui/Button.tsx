@@ -8,7 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<Variant, string> = {
   default:
-    "border border-purple/30 text-purple/80 bg-purple/5 hover:bg-purple/10 hover:border-purple/50 hover:text-purple",
+    "border border-purple/40 text-purple bg-purple/15 hover:bg-purple/25 hover:border-purple/60",
   primary:
     "bg-purple/80 text-white hover:bg-purple/70 backdrop-blur-sm",
   ghost:
