@@ -20,6 +20,8 @@ spring:
   flyway:
     enabled: true
     url: jdbc:postgresql://dearmi-db.cp5ajcba5ojx.ap-northeast-2.rds.amazonaws.com:5432/postgres
+    user: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     locations: classpath:db/migration
     create-schemas: true
     schemas: chaenii_db
