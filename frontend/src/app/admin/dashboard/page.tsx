@@ -19,7 +19,7 @@ export default function DashboardPage() {
             onClick={() => setActive(tab)}
             className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200
               ${active === tab
-                ? "bg-purple text-white"
+                ? "bg-purple text-bg"
                 : "text-text-secondary hover:text-text-primary hover:bg-surface"
               }`}
           >
