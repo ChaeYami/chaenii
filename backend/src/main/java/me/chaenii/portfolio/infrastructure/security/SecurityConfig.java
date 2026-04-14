@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/guestbook").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/guestbook").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/guestbook/{id}").permitAll()
