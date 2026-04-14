@@ -18,7 +18,10 @@ public enum ErrorCode {
     // Guestbook (Content)
     C001("C001", "Password mismatch", HttpStatus.FORBIDDEN),
     C002("C002", "Guestbook entry not found", HttpStatus.NOT_FOUND),
-    C003("C003", "Reply already exists", HttpStatus.CONFLICT);
+    C003("C003", "Reply already exists", HttpStatus.CONFLICT),
+
+    // Project
+    P001("P001", "Project not found", HttpStatus.NOT_FOUND);
 
     private final String code;
     private final String message;
