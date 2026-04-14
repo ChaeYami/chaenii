@@ -7,7 +7,9 @@ COPY src src
 RUN ./gradlew bootJar --no-daemon
 
 FROM eclipse-temurin:17-jre
+RUN addgroup -S app && adduser -S app -G app
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
+USER app
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
