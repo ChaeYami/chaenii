@@ -77,6 +77,9 @@ export default function Hero() {
             <a href="https://chaeyami.tistory.com/" target="_blank" rel="noopener noreferrer">
               <Button variant="default">Blog</Button>
             </a>
+            <a href="mailto:ssallyseo@gmail.com">
+              <Button variant="default">Email</Button>
+            </a>
           </motion.div>
         </div>
 

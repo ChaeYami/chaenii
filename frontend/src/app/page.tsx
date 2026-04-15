@@ -19,10 +19,10 @@ export default function Home() {
       <Suspense>
         <CurrentlyBuilding />
       </Suspense>
+      <Skills />
       <Suspense>
         <StudySection />
       </Suspense>
-      <Skills />
       <About />
       <GuestbookSection />
     </main>
