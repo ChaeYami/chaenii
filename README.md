@@ -1,6 +1,6 @@
 # chaenii.me
 
-포트폴리오 사이트. Linear.app 감성 다크 테마.
+> portfolio
 
 ## Stack
 
