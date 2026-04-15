@@ -82,7 +82,7 @@ export default function ProjectDetailClient() {
                   {children}
                 </code>
               ) : (
-                <code className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-sm text-lavender" {...props}>
+                <code className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-sm text-yellow-200/80" {...props}>
                   {children}
                 </code>
               );
@@ -106,18 +106,18 @@ export default function ProjectDetailClient() {
               <ol className="mb-4 list-decimal pl-6 text-text-secondary">{children}</ol>
             ),
             table: ({ children }) => (
-              <div className="mb-6 overflow-x-auto">
+              <div className="mb-6 overflow-x-auto rounded-lg border border-border">
                 <table className="w-full border-collapse text-sm">{children}</table>
               </div>
             ),
             thead: ({ children }) => (
-              <thead className="border-b border-border">{children}</thead>
+              <thead className="border-b border-border bg-surface-2">{children}</thead>
             ),
             th: ({ children }) => (
-              <th className="px-4 py-2 text-left font-semibold text-text-primary">{children}</th>
+              <th className="border-r border-border px-4 py-2 text-left font-semibold text-text-primary last:border-r-0">{children}</th>
             ),
             td: ({ children }) => (
-              <td className="border-b border-border/50 px-4 py-2 text-text-secondary">{children}</td>
+              <td className="border-b border-r border-border/50 px-4 py-2 text-text-secondary last:border-r-0">{children}</td>
             ),
           }}
         >

@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { Navbar, Footer } from "@/components/layout";
 import Providers from "@/components/layout/Providers";
 import "./globals.css";
+import "highlight.js/styles/github-dark-dimmed.css";
 
 const pretendard = localFont({
   src: "../../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
