@@ -7,6 +7,7 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeSanitize from "rehype-sanitize";
 import { useProject } from "@/hooks/useProjects";
 import { Button, Badge, Skeleton } from "@/components/ui";
+import TableOfContents, { extractHeadings } from "./TableOfContents";
 
 export default function ProjectDetailClient() {
   const router = useRouter();
@@ -35,39 +36,45 @@ export default function ProjectDetailClient() {
     );
   }
 
+  const headingId = (text: unknown) =>
+    String(text).toLowerCase().replace(/\s+/g, "-").replace(/[^\w가-힣-]/g, "");
+
   return (
-    <main className="mx-auto max-w-3xl px-6 py-24">
-      <button
-        onClick={() => router.back()}
-        className="mb-8 text-sm text-text-muted hover:text-text-primary transition-colors"
-      >
-        &larr; 돌아가기
-      </button>
+    <div className="mx-auto max-w-6xl px-6 py-24">
+      <div className="flex gap-16">
+        {/* 본문 */}
+        <main className="min-w-0 flex-1">
+          <button
+            onClick={() => router.back()}
+            className="mb-8 text-sm text-text-muted hover:text-text-primary transition-colors"
+          >
+            &larr; 돌아가기
+          </button>
 
-      <h1 className="text-4xl font-bold tracking-tight">{project.name}</h1>
+          <h1 className="text-4xl font-bold tracking-tight">{project.name}</h1>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <span className="font-mono text-sm text-text-muted">{project.period}</span>
-        <Badge>{project.role}</Badge>
-      </div>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <span className="font-mono text-sm text-text-muted">{project.period}</span>
+            <Badge>{project.role}</Badge>
+          </div>
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
-        {project.skills.map((skill) => (
-          <Badge key={skill} className="text-xs">{skill}</Badge>
-        ))}
-      </div>
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {project.skills.map((skill) => (
+              <Badge key={skill} className="text-xs">{skill}</Badge>
+            ))}
+          </div>
 
-      <article className="prose-invert mt-12 max-w-none">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight, rehypeSanitize]}
-          components={{
-            h2: ({ children }) => (
-              <h2 className="mt-10 mb-4 text-2xl font-bold text-text-primary">{children}</h2>
-            ),
-            h3: ({ children }) => (
-              <h3 className="mt-8 mb-3 text-xl font-semibold text-text-primary">{children}</h3>
-            ),
+          <article className="prose-invert mt-12 max-w-none">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight, rehypeSanitize]}
+              components={{
+                h2: ({ children }) => (
+                  <h2 id={headingId(children)} className="mt-10 mb-4 text-2xl font-bold text-text-primary">{children}</h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 id={headingId(children)} className="mt-8 mb-3 text-xl font-semibold text-text-primary">{children}</h3>
+                ),
             p: ({ children }) => (
               <p className="mb-4 leading-relaxed text-text-secondary">{children}</p>
             ),
@@ -119,24 +126,29 @@ export default function ProjectDetailClient() {
             td: ({ children }) => (
               <td className="border-b border-r border-border/50 px-4 py-2 text-text-secondary last:border-r-0">{children}</td>
             ),
-          }}
-        >
-          {project.detailContent}
-        </ReactMarkdown>
-      </article>
+              }}
+            >
+              {project.detailContent}
+            </ReactMarkdown>
+          </article>
 
-      <div className="mt-12 flex flex-wrap gap-3">
-        {project.githubUrl && (
-          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant="default">GitHub</Button>
-          </a>
-        )}
-        {project.notionUrl && (
-          <a href={project.notionUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant="default">Notion</Button>
-          </a>
-        )}
+          <div className="mt-12 flex flex-wrap gap-3">
+            {project.githubUrl && (
+              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="default">GitHub</Button>
+              </a>
+            )}
+            {project.notionUrl && (
+              <a href={project.notionUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="default">Notion</Button>
+              </a>
+            )}
+          </div>
+        </main>
+
+        {/* 플로팅 목차 */}
+        <TableOfContents content={project.detailContent} />
       </div>
-    </main>
+    </div>
   );
 }
