@@ -84,7 +84,7 @@ export default function ProjectDetailClient() {
             li: ({ children }) => <li className="mb-1">{children}</li>,
             code: ({ className, children, ...props }) => (
               <code
-                className={`${className ?? ""} rounded bg-[#222325] px-1.5 py-0.5 font-mono text-sm text-yellow-200/80`}
+                className={`${className ?? ""} rounded bg-[#222325] px-1.5 py-0.5 font-mono text-sm text-[#c6cedb]`}
                 {...props}
               >
                 {children}
