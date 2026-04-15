@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { fadeUp, transition } from "@/hooks/useScrollAnimation";
 import { Button, Badge } from "@/components/ui";
 
@@ -12,6 +12,9 @@ const container = {
 };
 
 export default function Hero() {
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 200], [1, 0]);
+
   return (
     <section className="relative min-h-[90vh] overflow-hidden">
       {/* Background gradient */}
@@ -52,7 +55,7 @@ export default function Hero() {
             variants={fadeUp}
             transition={transition}
           >
-            기획부터 설계, 개발, 배포까지
+            기획, 설계부터 개발, 배포, 유지보수까지
           </motion.p>
 
           <motion.div
@@ -77,6 +80,21 @@ export default function Hero() {
           </motion.div>
         </div>
 
+      </motion.div>
+
+      {/* 스크롤 힌트 */}
+      <motion.div
+        style={{ opacity }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-text-secondary"
+      >
+        <span className="text-sm">스크롤해서 프로젝트를 확인해보세요</span>
+        <motion.span
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+          className="text-xs"
+        >
+          ↓
+        </motion.span>
       </motion.div>
     </section>
   );

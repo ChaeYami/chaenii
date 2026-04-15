@@ -7,7 +7,7 @@ import { Card } from "@/components/ui";
 const CARDS = [
   { emoji: "⚾", title: "SSG Landers", desc: "스트레스 원인이자 스트레스 해소제." },
   { emoji: "🎮", title: "게임", desc: "두 번재 스트레스 해소제. \n언젠간 내 게임을 만들 거야." },
-  { emoji: "🛠️", title: "개발", desc: "일이자 취미. \n좋아하는 걸 직업으로 갖는 행복." },
+  { emoji: "🛠️", title: "개발", desc: "일이자 취미. 취미이자 직업." },
 ];
 
 const container = {
