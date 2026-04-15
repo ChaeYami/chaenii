@@ -12,14 +12,14 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <About />
-      <Skills />
       <Suspense>
         <Projects />
       </Suspense>
       <Suspense>
         <CurrentlyBuilding />
       </Suspense>
+      <Skills />
+      <About />
       <GuestbookSection />
     </main>
   );

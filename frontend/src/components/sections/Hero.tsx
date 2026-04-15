@@ -36,7 +36,7 @@ export default function Hero() {
             variants={fadeUp}
             transition={transition}
           >
-            ChaeYami
+            Chaeyeon Seo
           </motion.h1>
 
           <motion.p
