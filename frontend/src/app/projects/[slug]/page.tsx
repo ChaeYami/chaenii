@@ -8,16 +8,10 @@ export async function generateStaticParams() {
     const data = await res.json();
     return data.map((p: { slug: string }) => ({ slug: p.slug }));
   } catch {
-    // Fallback: return a placeholder so the build succeeds when API is offline.
-    // This slug is never actually visited; CloudFront 404→200 handles runtime routing.
     return [{ slug: "_placeholder" }];
   }
 }
 
-export default function ProjectDetailPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  return <ProjectDetailClient slug={params.slug} />;
+export default function ProjectDetailPage() {
+  return <ProjectDetailClient />;
 }

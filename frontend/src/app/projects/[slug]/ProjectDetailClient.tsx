@@ -1,14 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSanitize from "rehype-sanitize";
 import { useProject } from "@/hooks/useProjects";
 import { Button, Badge, Skeleton } from "@/components/ui";
 
-export default function ProjectDetailClient({ slug }: { slug: string }) {
+export default function ProjectDetailClient() {
   const router = useRouter();
+  const pathname = usePathname();
+  const slug = pathname.split("/").filter(Boolean).pop() ?? "";
   const { data: project, isLoading } = useProject(slug);
 
   if (isLoading) {
