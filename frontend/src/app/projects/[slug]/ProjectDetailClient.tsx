@@ -2,6 +2,7 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSanitize from "rehype-sanitize";
 import { useProject } from "@/hooks/useProjects";
@@ -58,6 +59,7 @@ export default function ProjectDetailClient() {
 
       <article className="prose-invert mt-12 max-w-none">
         <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeHighlight, rehypeSanitize]}
           components={{
             h2: ({ children }) => (
@@ -102,6 +104,20 @@ export default function ProjectDetailClient() {
             ),
             ol: ({ children }) => (
               <ol className="mb-4 list-decimal pl-6 text-text-secondary">{children}</ol>
+            ),
+            table: ({ children }) => (
+              <div className="mb-6 overflow-x-auto">
+                <table className="w-full border-collapse text-sm">{children}</table>
+              </div>
+            ),
+            thead: ({ children }) => (
+              <thead className="border-b border-border">{children}</thead>
+            ),
+            th: ({ children }) => (
+              <th className="px-4 py-2 text-left font-semibold text-text-primary">{children}</th>
+            ),
+            td: ({ children }) => (
+              <td className="border-b border-border/50 px-4 py-2 text-text-secondary">{children}</td>
             ),
           }}
         >
