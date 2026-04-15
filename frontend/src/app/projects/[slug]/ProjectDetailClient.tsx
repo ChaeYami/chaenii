@@ -7,7 +7,7 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeSanitize from "rehype-sanitize";
 import { useProject } from "@/hooks/useProjects";
 import { Button, Badge, Skeleton } from "@/components/ui";
-import TableOfContents, { extractHeadings } from "./TableOfContents";
+import TableOfContents from "./TableOfContents";
 
 export default function ProjectDetailClient() {
   const router = useRouter();
