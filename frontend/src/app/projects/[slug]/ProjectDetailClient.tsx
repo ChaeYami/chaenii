@@ -86,6 +86,23 @@ export default function ProjectDetailClient() {
               );
             },
             pre: ({ children }) => <pre className="mb-4">{children}</pre>,
+            a: ({ href, children }) => (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple underline underline-offset-2 hover:opacity-80"
+              >
+                {children}
+              </a>
+            ),
+            hr: () => <hr className="my-8 border-border" />,
+            strong: ({ children }) => (
+              <strong className="font-semibold text-text-primary">{children}</strong>
+            ),
+            ol: ({ children }) => (
+              <ol className="mb-4 list-decimal pl-6 text-text-secondary">{children}</ol>
+            ),
           }}
         >
           {project.detailContent}
