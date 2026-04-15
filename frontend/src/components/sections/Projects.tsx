@@ -62,7 +62,7 @@ export default function Projects() {
               onClick={() => handleFilter(cat)}
               className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200
                 ${active === cat
-                  ? "bg-purple/75 text-bg"
+                  ? "bg-purple/30 text-purple"
                   : "text-text-secondary hover:text-text-primary hover:bg-surface"
                 }`}
             >

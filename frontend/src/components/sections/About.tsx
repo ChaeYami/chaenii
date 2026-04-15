@@ -67,7 +67,7 @@ export default function About() {
             >
               <Card className="h-full">
                 <span className="text-3xl">{card.emoji}</span>
-                <h3 className="mt-3 text-lg font-semibold">{card.title}</h3>
+                <h3 className="mt-3 text-lg font-semibold text-[#c0c5cd]">{card.title}</h3>
                 <p className="mt-1 whitespace-pre-line text-sm text-text-secondary">{card.desc}</p>
               </Card>
             </motion.div>

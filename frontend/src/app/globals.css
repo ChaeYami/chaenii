@@ -7,8 +7,8 @@
   --color-surface: #1A1A24;
   --color-surface-2: #13131A;
   --color-border: #2A2A3A;
-  --color-text-primary: #F8FAFC;
-  --color-text-secondary: #94A3B8;
+  --color-text-primary: #d4d4d4;
+  --color-text-secondary: rgb(200 200 216);
   --color-text-muted: #64748B;
   --color-purple: 210 159 255;
   --color-pink: #D97BA8;
@@ -18,6 +18,7 @@
 body {
   color: var(--color-text-primary);
   background: var(--color-bg);
+  font-size: 1.1rem;
 }
 
 ::selection {
