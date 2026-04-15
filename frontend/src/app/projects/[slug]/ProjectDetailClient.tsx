@@ -100,7 +100,7 @@ export default function ProjectDetailClient() {
             ),
             hr: () => <hr className="my-8 border-border" />,
             strong: ({ children }) => (
-              <strong className="font-semibold text-text-primary">{children}</strong>
+              <strong className="font-semibold">{children}</strong>
             ),
             ol: ({ children }) => (
               <ol className="mb-4 list-decimal pl-6 text-text-secondary">{children}</ol>

@@ -1,11 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import type { AdminProject, ProjectFormData } from "@/types/admin-project";
 import { Button, Input } from "@/components/ui";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
+
+const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
+
+async function uploadImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch(`${API}/api/admin/images/upload`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+  const json = await res.json();
+  return json.data.url;
+}
 
 const CATEGORIES = ["모바일앱", "백엔드", "팀"];
 
@@ -35,6 +49,34 @@ interface Props {
 export default function ProjectForm({ initial, onSubmit, onCancel, isPending, error }: Props) {
   const [form, setForm] = useState<ProjectFormData>(emptyForm);
   const [skillsInput, setSkillsInput] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const insertImageMarkdown = (url: string, filename: string) => {
+    const markdown = `\n![${filename}](${url})\n`;
+    update("detailContent", (form.detailContent ?? "") + markdown);
+  };
+
+  const handleImageFile = async (file: File) => {
+    if (!file.type.startsWith("image/")) return;
+    setUploading(true);
+    try {
+      const url = await uploadImage(file);
+      insertImageMarkdown(url, file.name);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handlePaste = async (e: React.ClipboardEvent) => {
+    const imageFile = Array.from(e.clipboardData.items)
+      .find((item) => item.type.startsWith("image/"))
+      ?.getAsFile();
+    if (imageFile) {
+      e.preventDefault();
+      await handleImageFile(imageFile);
+    }
+  };
 
   useEffect(() => {
     if (initial) {
@@ -160,13 +202,32 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
       </div>
 
       <div data-color-mode="dark">
-        <label className="mb-1 block text-xs text-text-muted">상세 내용 (Markdown)</label>
-        <MDEditor
-          value={form.detailContent}
-          onChange={(val) => update("detailContent", val ?? "")}
-          height={400}
-          preview="live"
-        />
+        <div className="mb-1 flex items-center justify-between">
+          <label className="text-xs text-text-muted">상세 내용 (Markdown)</label>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="text-xs text-text-muted hover:text-text-primary transition-colors disabled:opacity-50"
+          >
+            {uploading ? "업로드 중..." : "🖼 이미지 업로드"}
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => e.target.files?.[0] && handleImageFile(e.target.files[0])}
+          />
+        </div>
+        <div onPaste={handlePaste}>
+          <MDEditor
+            value={form.detailContent}
+            onChange={(val) => update("detailContent", val ?? "")}
+            height={400}
+            preview="live"
+          />
+        </div>
       </div>
 
       {error && (
