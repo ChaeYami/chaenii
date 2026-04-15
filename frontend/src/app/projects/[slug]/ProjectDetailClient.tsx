@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -50,6 +51,17 @@ export default function ProjectDetailClient() {
           >
             &larr; 돌아가기
           </button>
+
+          {project.coverImageUrl && (
+            <div className="relative mb-8 h-56 w-full overflow-hidden rounded-xl">
+              <Image
+                src={project.coverImageUrl}
+                alt={project.name}
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
 
           <h1 className="text-4xl font-bold tracking-tight">{project.name}</h1>
 

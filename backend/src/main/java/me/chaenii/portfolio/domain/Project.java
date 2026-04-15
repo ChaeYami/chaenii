@@ -52,6 +52,9 @@ public class Project {
     @Column(name = "detail_content", columnDefinition = "TEXT")
     private String detailContent;
 
+    @Column(name = "cover_image_url", length = 500)
+    private String coverImageUrl;
+
     @Column(name = "sort_order", nullable = false)
     private int sortOrder;
 
@@ -66,7 +69,7 @@ public class Project {
     public static Project create(String slug, String name, String category, String period,
                                   String role, String description, List<String> skills,
                                   String status, Integer progress, String githubUrl,
-                                  String notionUrl, String detailContent) {
+                                  String notionUrl, String detailContent, String coverImageUrl) {
         Project p = new Project();
         p.slug = slug;
         p.name = name;
@@ -80,6 +83,7 @@ public class Project {
         p.githubUrl = githubUrl;
         p.notionUrl = notionUrl;
         p.detailContent = detailContent;
+        p.coverImageUrl = coverImageUrl;
         p.sortOrder = 0;
         p.createdAt = LocalDateTime.now();
         p.updatedAt = LocalDateTime.now();
@@ -89,7 +93,7 @@ public class Project {
     public void update(String slug, String name, String category, String period,
                        String role, String description, List<String> skills,
                        String status, Integer progress, String githubUrl,
-                       String notionUrl, String detailContent) {
+                       String notionUrl, String detailContent, String coverImageUrl) {
         this.slug = slug;
         this.name = name;
         this.category = category;
@@ -102,6 +106,7 @@ public class Project {
         this.githubUrl = githubUrl;
         this.notionUrl = notionUrl;
         this.detailContent = detailContent;
+        this.coverImageUrl = coverImageUrl;
         this.updatedAt = LocalDateTime.now();
     }
 
@@ -122,6 +127,7 @@ public class Project {
     public String getGithubUrl() { return githubUrl; }
     public String getNotionUrl() { return notionUrl; }
     public String getDetailContent() { return detailContent; }
+    public String getCoverImageUrl() { return coverImageUrl; }
     public int getSortOrder() { return sortOrder; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

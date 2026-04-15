@@ -12,6 +12,7 @@ export interface AdminProject {
   status: "completed" | "building";
   progress?: number;
   detailContent: string;
+  coverImageUrl?: string;
   sortOrder: number;
 }
 
@@ -28,4 +29,23 @@ export interface ProjectFormData {
   status: "completed" | "building";
   progress?: number;
   detailContent: string;
+  coverImageUrl?: string;
+}
+
+export interface AdminStudy {
+  id: number;
+  title: string;
+  description?: string;
+  imageUrl?: string;
+  notionUrl?: string;
+  tags: string[];
+  sortOrder: number;
+}
+
+export interface StudyFormData {
+  title: string;
+  description?: string;
+  imageUrl?: string;
+  notionUrl?: string;
+  tags: string[];
 }

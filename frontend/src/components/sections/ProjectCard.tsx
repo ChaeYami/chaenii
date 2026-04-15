@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import type { Project } from "@/types/project";
 import { Card, Badge } from "@/components/ui";
 
@@ -11,24 +12,37 @@ interface ProjectCardProps {
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link href={`/projects/${project.slug}`}>
-      <Card className="group h-full cursor-pointer">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="text-lg font-semibold group-hover:text-purple transition-colors">
-            {project.name}
-          </h3>
-          <Badge>{project.role}</Badge>
-        </div>
+      <Card className="group h-full cursor-pointer overflow-hidden !p-0">
+        {project.coverImageUrl && (
+          <div className="relative h-40 w-full overflow-hidden">
+            <Image
+              src={project.coverImageUrl}
+              alt={project.name}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+        )}
 
-        <p className="mt-1 font-mono text-xs text-text-muted">{project.period}</p>
+        <div className="p-5">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-lg font-semibold group-hover:text-purple transition-colors">
+              {project.name}
+            </h3>
+            <Badge>{project.role}</Badge>
+          </div>
 
-        <p className="mt-3 text-sm text-text-secondary line-clamp-2">
-          {project.description}
-        </p>
+          <p className="mt-1 font-mono text-xs text-text-muted">{project.period}</p>
 
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {project.skills.map((skill) => (
-            <Badge key={skill} className="text-xs">{skill}</Badge>
-          ))}
+          <p className="mt-3 text-sm text-text-secondary line-clamp-2">
+            {project.description}
+          </p>
+
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {project.skills.map((skill) => (
+              <Badge key={skill} className="text-xs">{skill}</Badge>
+            ))}
+          </div>
         </div>
       </Card>
     </Link>

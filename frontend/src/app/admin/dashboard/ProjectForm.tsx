@@ -36,6 +36,7 @@ const emptyForm: ProjectFormData = {
   status: "completed",
   progress: undefined,
   detailContent: "",
+  coverImageUrl: undefined,
 };
 
 interface Props {
@@ -50,7 +51,20 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
   const [form, setForm] = useState<ProjectFormData>(emptyForm);
   const [skillsInput, setSkillsInput] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
+
+  const handleCoverImageFile = async (file: File) => {
+    if (!file.type.startsWith("image/")) return;
+    setUploadingCover(true);
+    try {
+      const url = await uploadImage(file);
+      update("coverImageUrl", url);
+    } finally {
+      setUploadingCover(false);
+    }
+  };
 
   const insertImageMarkdown = (url: string, filename: string) => {
     const markdown = `\n![${filename}](${url})\n`;
@@ -93,6 +107,7 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
         status: initial.status,
         progress: initial.progress,
         detailContent: initial.detailContent,
+        coverImageUrl: initial.coverImageUrl,
       });
       setSkillsInput(initial.skills.join(", "));
     }
@@ -115,6 +130,40 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
       <h3 className="text-lg font-semibold">
         {initial ? "프로젝트 수정" : "새 프로젝트"}
       </h3>
+
+      {/* 커버 이미지 */}
+      <div>
+        <label className="mb-1 block text-xs text-text-muted">커버 이미지</label>
+        <div className="flex items-center gap-3">
+          {form.coverImageUrl && (
+            <img src={form.coverImageUrl} alt="cover" className="h-20 w-36 rounded-lg object-cover border border-border" />
+          )}
+          <button
+            type="button"
+            onClick={() => coverInputRef.current?.click()}
+            disabled={uploadingCover}
+            className="text-sm text-text-muted hover:text-text-primary transition-colors disabled:opacity-50"
+          >
+            {uploadingCover ? "업로드 중..." : form.coverImageUrl ? "🖼 이미지 변경" : "🖼 이미지 업로드"}
+          </button>
+          {form.coverImageUrl && (
+            <button
+              type="button"
+              onClick={() => update("coverImageUrl", undefined)}
+              className="text-xs text-red-400 hover:text-red-300 transition-colors"
+            >
+              삭제
+            </button>
+          )}
+          <input
+            ref={coverInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => e.target.files?.[0] && handleCoverImageFile(e.target.files[0])}
+          />
+        </div>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>

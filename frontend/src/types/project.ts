@@ -11,6 +11,7 @@ export interface Project {
   progress?: number;
   githubUrl?: string;
   notionUrl?: string;
+  coverImageUrl?: string;
 }
 
 export interface ProjectDetail extends Project {

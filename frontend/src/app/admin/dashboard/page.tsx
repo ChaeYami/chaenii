@@ -3,8 +3,9 @@
 import { useState } from "react";
 import GuestbookTab from "./GuestbookTab";
 import ProjectsTab from "./ProjectsTab";
+import StudyTab from "./StudyTab";
 
-const TABS = ["방명록 관리", "프로젝트 관리"] as const;
+const TABS = ["방명록 관리", "프로젝트 관리", "Study 관리"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function DashboardPage() {
@@ -19,7 +20,7 @@ export default function DashboardPage() {
             onClick={() => setActive(tab)}
             className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200
               ${active === tab
-                ? "bg-purple/75 text-bg"
+                ? "bg-purple/30 text-purple"
                 : "text-text-secondary hover:text-text-primary hover:bg-surface"
               }`}
           >
@@ -28,7 +29,9 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {active === "방명록 관리" ? <GuestbookTab /> : <ProjectsTab />}
+      {active === "방명록 관리" && <GuestbookTab />}
+      {active === "프로젝트 관리" && <ProjectsTab />}
+      {active === "Study 관리" && <StudyTab />}
     </div>
   );
 }

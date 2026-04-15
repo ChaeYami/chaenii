@@ -18,6 +18,7 @@ public record ProjectResponse(
         String githubUrl,
         String notionUrl,
         String detailContent,
+        String coverImageUrl,
         int sortOrder
 ) {
     public static ProjectResponse from(Project project) {
@@ -35,6 +36,7 @@ public record ProjectResponse(
                 project.getGithubUrl(),
                 project.getNotionUrl(),
                 project.getDetailContent(),
+                project.getCoverImageUrl(),
                 project.getSortOrder()
         );
     }

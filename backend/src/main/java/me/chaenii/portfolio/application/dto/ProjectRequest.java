@@ -17,5 +17,6 @@ public record ProjectRequest(
         Integer progress,
         @Size(max = 300) String githubUrl,
         @Size(max = 300) String notionUrl,
-        String detailContent
+        String detailContent,
+        @Size(max = 500) String coverImageUrl
 ) {}

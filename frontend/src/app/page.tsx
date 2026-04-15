@@ -6,6 +6,7 @@ import {
   Projects,
   CurrentlyBuilding,
   GuestbookSection,
+  StudySection,
 } from "@/components/sections";
 
 export default function Home() {
@@ -17,6 +18,9 @@ export default function Home() {
       </Suspense>
       <Suspense>
         <CurrentlyBuilding />
+      </Suspense>
+      <Suspense>
+        <StudySection />
       </Suspense>
       <Skills />
       <About />
