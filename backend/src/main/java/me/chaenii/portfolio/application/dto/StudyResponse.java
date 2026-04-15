@@ -11,6 +11,7 @@ public record StudyResponse(
         String imageUrl,
         String notionUrl,
         List<String> tags,
+        String period,
         int sortOrder
 ) {
     public static StudyResponse from(Study study) {
@@ -21,6 +22,7 @@ public record StudyResponse(
                 study.getImageUrl(),
                 study.getNotionUrl(),
                 List.copyOf(study.getTags()),
+                study.getPeriod(),
                 study.getSortOrder()
         );
     }

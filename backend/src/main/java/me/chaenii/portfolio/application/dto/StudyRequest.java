@@ -10,5 +10,6 @@ public record StudyRequest(
         @Size(max = 300) String description,
         @Size(max = 500) String imageUrl,
         @Size(max = 500) String notionUrl,
-        List<String> tags
+        List<String> tags,
+        @Size(max = 50) String period
 ) {}

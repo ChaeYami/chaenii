@@ -5,5 +5,6 @@ export interface Study {
   imageUrl?: string;
   notionUrl?: string;
   tags: string[];
+  period?: string;
   sortOrder: number;
 }

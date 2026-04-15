@@ -26,6 +26,9 @@ public class Study {
     @Column(name = "notion_url", length = 500)
     private String notionUrl;
 
+    @Column(length = 50)
+    private String period;
+
     @ElementCollection
     @CollectionTable(name = "study_tag", joinColumns = @JoinColumn(name = "study_id"))
     @Column(name = "tag", nullable = false, length = 50)
@@ -43,13 +46,14 @@ public class Study {
     protected Study() {}
 
     public static Study create(String title, String description, String imageUrl,
-                                String notionUrl, List<String> tags) {
+                                String notionUrl, List<String> tags, String period) {
         Study s = new Study();
         s.title = title;
         s.description = description;
         s.imageUrl = imageUrl;
         s.notionUrl = notionUrl;
         s.tags = tags != null ? new ArrayList<>(tags) : new ArrayList<>();
+        s.period = period;
         s.sortOrder = 0;
         s.createdAt = LocalDateTime.now();
         s.updatedAt = LocalDateTime.now();
@@ -57,12 +61,13 @@ public class Study {
     }
 
     public void update(String title, String description, String imageUrl,
-                       String notionUrl, List<String> tags) {
+                       String notionUrl, List<String> tags, String period) {
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;
         this.notionUrl = notionUrl;
         this.tags = tags != null ? new ArrayList<>(tags) : new ArrayList<>();
+        this.period = period;
         this.updatedAt = LocalDateTime.now();
     }
 
@@ -76,6 +81,7 @@ public class Study {
     public String getImageUrl() { return imageUrl; }
     public String getNotionUrl() { return notionUrl; }
     public List<String> getTags() { return tags; }
+    public String getPeriod() { return period; }
     public int getSortOrder() { return sortOrder; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

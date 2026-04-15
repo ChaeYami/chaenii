@@ -24,6 +24,7 @@ const emptyForm: StudyFormData = {
   imageUrl: undefined,
   notionUrl: "",
   tags: [],
+  period: "",
 };
 
 interface Props {
@@ -48,6 +49,7 @@ export default function StudyForm({ initial, onSubmit, onCancel, isPending, erro
         imageUrl: initial.imageUrl,
         notionUrl: initial.notionUrl ?? "",
         tags: initial.tags,
+        period: initial.period ?? "",
       });
       setTagsInput(initial.tags.join(", "));
     }
@@ -126,6 +128,11 @@ export default function StudyForm({ initial, onSubmit, onCancel, isPending, erro
       <div>
         <label className="mb-1 block text-xs text-text-muted">Notion URL</label>
         <Input value={form.notionUrl ?? ""} onChange={(e) => update("notionUrl", e.target.value || undefined)} placeholder="https://notion.so/..." />
+      </div>
+
+      <div>
+        <label className="mb-1 block text-xs text-text-muted">기간</label>
+        <Input value={form.period ?? ""} onChange={(e) => update("period", e.target.value || undefined)} placeholder="2024.01 - 2024.06" />
       </div>
 
       <div>

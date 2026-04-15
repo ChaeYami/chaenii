@@ -39,6 +39,7 @@ export interface AdminStudy {
   imageUrl?: string;
   notionUrl?: string;
   tags: string[];
+  period?: string;
   sortOrder: number;
 }
 
@@ -48,4 +49,5 @@ export interface StudyFormData {
   imageUrl?: string;
   notionUrl?: string;
   tags: string[];
+  period?: string;
 }

@@ -5,6 +5,7 @@ import { useScrollAnimation, fadeUp, transition } from "@/hooks/useScrollAnimati
 import { useStudies } from "@/hooks/useStudies";
 import { Skeleton } from "@/components/ui";
 import StudyCard from "./StudyCard";
+import { sortByPeriodDesc } from "@/lib/sortByPeriod";
 
 const container = {
   hidden: {},
@@ -39,7 +40,7 @@ export default function StudySection() {
             ? Array.from({ length: 3 }).map((_, i) => (
                 <Skeleton key={i} className="h-48 rounded-xl" />
               ))
-            : studies!.map((study) => (
+            : sortByPeriodDesc(studies!).map((study) => (
                 <motion.div key={study.id} variants={fadeUp} transition={transition}>
                   <StudyCard study={study} />
                 </motion.div>

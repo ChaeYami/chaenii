@@ -30,6 +30,10 @@ export default function StudyCard({ study }: { study: Study }) {
           {study.title}
         </h3>
 
+        {study.period && (
+          <p className="mt-1 font-mono text-xs text-text-muted">{study.period}</p>
+        )}
+
         {study.description && (
           <p className="mt-1.5 text-sm text-text-secondary line-clamp-2">
             {study.description}

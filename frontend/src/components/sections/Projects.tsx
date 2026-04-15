@@ -6,6 +6,7 @@ import { useScrollAnimation, fadeUp, transition } from "@/hooks/useScrollAnimati
 import { useProjects } from "@/hooks/useProjects";
 import { Skeleton } from "@/components/ui";
 import ProjectCard from "./ProjectCard";
+import { sortByPeriodDesc } from "@/lib/sortByPeriod";
 
 const CATEGORIES = ["전체", "모바일앱", "백엔드", "팀"] as const;
 
@@ -78,7 +79,7 @@ export default function Projects() {
               <Skeleton key={i} className="h-48 rounded-xl" />
             ))
           ) : projects && projects.length > 0 ? (
-            projects.map((project, i) => (
+            sortByPeriodDesc(projects).map((project, i) => (
               <motion.div
                 key={project.id}
                 variants={fadeUp}

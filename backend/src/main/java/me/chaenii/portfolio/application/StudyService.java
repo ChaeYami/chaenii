@@ -30,7 +30,7 @@ public class StudyService {
     public StudyResponse create(StudyRequest request) {
         Study study = Study.create(
                 request.title(), request.description(),
-                request.imageUrl(), request.notionUrl(), request.tags()
+                request.imageUrl(), request.notionUrl(), request.tags(), request.period()
         );
         return StudyResponse.from(studyRepository.save(study));
     }
@@ -39,7 +39,7 @@ public class StudyService {
     public StudyResponse update(Long id, StudyRequest request) {
         Study study = findOrThrow(id);
         study.update(request.title(), request.description(),
-                request.imageUrl(), request.notionUrl(), request.tags());
+                request.imageUrl(), request.notionUrl(), request.tags(), request.period());
         return StudyResponse.from(study);
     }
 

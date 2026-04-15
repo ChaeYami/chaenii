@@ -1,0 +1,1 @@
+ALTER TABLE study ADD COLUMN period VARCHAR(50);
