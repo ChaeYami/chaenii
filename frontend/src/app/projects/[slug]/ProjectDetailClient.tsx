@@ -4,7 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import rehypeSanitize from "rehype-sanitize";
+
 import { useProject } from "@/hooks/useProjects";
 import { Button, Badge, Skeleton } from "@/components/ui";
 import TableOfContents from "./TableOfContents";
@@ -40,7 +40,7 @@ export default function ProjectDetailClient() {
     String(text).toLowerCase().replace(/\s+/g, "-").replace(/[^\w가-힣-]/g, "");
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-24">
+    <div className="mx-auto max-w-5xl px-6 py-24">
       <div className="flex gap-16">
         {/* 본문 */}
         <main className="min-w-0 flex-1">
@@ -67,7 +67,7 @@ export default function ProjectDetailClient() {
           <article className="prose-invert mt-12 max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight, rehypeSanitize]}
+              rehypePlugins={[rehypeHighlight]}
               components={{
                 h2: ({ children }) => (
                   <h2 id={headingId(children)} className="mt-10 mb-4 text-2xl font-bold text-text-primary">{children}</h2>
@@ -76,25 +76,25 @@ export default function ProjectDetailClient() {
                   <h3 id={headingId(children)} className="mt-8 mb-3 text-xl font-semibold text-text-primary">{children}</h3>
                 ),
             p: ({ children }) => (
-              <p className="mb-4 leading-relaxed text-text-secondary">{children}</p>
+              <p className="mb-4 leading-relaxed text-slate-300">{children}</p>
             ),
             ul: ({ children }) => (
-              <ul className="mb-4 list-disc pl-6 text-text-secondary">{children}</ul>
+              <ul className="mb-4 list-disc pl-6 text-slate-300">{children}</ul>
             ),
             li: ({ children }) => <li className="mb-1">{children}</li>,
-            code: ({ className, children, ...props }) => {
-              const isBlock = className?.includes("language-");
-              return isBlock ? (
-                <code className={`${className} block overflow-x-auto rounded-lg bg-surface-2 p-4 font-mono text-sm`} {...props}>
-                  {children}
-                </code>
-              ) : (
-                <code className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-sm text-yellow-200/80" {...props}>
-                  {children}
-                </code>
-              );
-            },
-            pre: ({ children }) => <pre className="mb-4">{children}</pre>,
+            code: ({ className, children, ...props }) => (
+              <code
+                className={`${className ?? ""} rounded bg-surface px-1.5 py-0.5 font-mono text-sm text-yellow-200/80`}
+                {...props}
+              >
+                {children}
+              </code>
+            ),
+            pre: ({ children }) => (
+              <pre className="mb-4 overflow-x-auto rounded-lg bg-surface p-4 [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-inherit">
+                {children}
+              </pre>
+            ),
             a: ({ href, children }) => (
               <a
                 href={href}
@@ -110,7 +110,7 @@ export default function ProjectDetailClient() {
               <strong className="font-semibold">{children}</strong>
             ),
             ol: ({ children }) => (
-              <ol className="mb-4 list-decimal pl-6 text-text-secondary">{children}</ol>
+              <ol className="mb-4 list-decimal pl-6 text-slate-300">{children}</ol>
             ),
             table: ({ children }) => (
               <div className="mb-6 overflow-x-auto rounded-lg border border-border">
@@ -124,7 +124,7 @@ export default function ProjectDetailClient() {
               <th className="border-r border-border px-4 py-2 text-left font-semibold text-text-primary last:border-r-0">{children}</th>
             ),
             td: ({ children }) => (
-              <td className="border-b border-r border-border/50 px-4 py-2 text-text-secondary last:border-r-0">{children}</td>
+              <td className="border-b border-r border-border/50 px-4 py-2 text-slate-300 last:border-r-0">{children}</td>
             ),
               }}
             >
