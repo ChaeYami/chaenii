@@ -40,7 +40,8 @@ public class ProjectService {
                 request.slug(), request.name(), request.category(), request.period(),
                 request.role(), request.description(), request.skills(),
                 request.status(), request.progress(), request.githubUrl(),
-                request.notionUrl(), request.detailContent(), request.coverImageUrl()
+                request.notionUrl(), request.detailContent(), request.coverImageUrl(),
+                request.serviceUrl(), request.appStoreUrl(), request.playStoreUrl()
         );
         return ProjectResponse.from(projectRepository.save(project));
     }
@@ -52,7 +53,8 @@ public class ProjectService {
                 request.slug(), request.name(), request.category(), request.period(),
                 request.role(), request.description(), request.skills(),
                 request.status(), request.progress(), request.githubUrl(),
-                request.notionUrl(), request.detailContent(), request.coverImageUrl()
+                request.notionUrl(), request.detailContent(), request.coverImageUrl(),
+                request.serviceUrl(), request.appStoreUrl(), request.playStoreUrl()
         );
         return ProjectResponse.from(project);
     }

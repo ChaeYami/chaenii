@@ -37,6 +37,9 @@ const emptyForm: ProjectFormData = {
   progress: undefined,
   detailContent: "",
   coverImageUrl: undefined,
+  serviceUrl: "",
+  appStoreUrl: "",
+  playStoreUrl: "",
 };
 
 interface Props {
@@ -104,6 +107,9 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
         category: initial.category,
         githubUrl: initial.githubUrl ?? "",
         notionUrl: initial.notionUrl ?? "",
+        serviceUrl: initial.serviceUrl ?? "",
+        appStoreUrl: initial.appStoreUrl ?? "",
+        playStoreUrl: initial.playStoreUrl ?? "",
         status: initial.status,
         progress: initial.progress,
         detailContent: initial.detailContent,
@@ -220,6 +226,18 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
         <div>
           <label className="mb-1 block text-xs text-text-muted">Notion URL</label>
           <Input value={form.notionUrl ?? ""} onChange={(e) => update("notionUrl", e.target.value || undefined)} placeholder="https://notion.so/..." />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs text-text-muted">서비스 URL (웹)</label>
+          <Input value={form.serviceUrl ?? ""} onChange={(e) => update("serviceUrl", e.target.value || undefined)} placeholder="https://..." />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs text-text-muted">App Store URL</label>
+          <Input value={form.appStoreUrl ?? ""} onChange={(e) => update("appStoreUrl", e.target.value || undefined)} placeholder="https://apps.apple.com/..." />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs text-text-muted">Google Play URL</label>
+          <Input value={form.playStoreUrl ?? ""} onChange={(e) => update("playStoreUrl", e.target.value || undefined)} placeholder="https://play.google.com/..." />
         </div>
       </div>
 

@@ -18,5 +18,8 @@ public record ProjectRequest(
         @Size(max = 300) String githubUrl,
         @Size(max = 300) String notionUrl,
         String detailContent,
-        @Size(max = 500) String coverImageUrl
+        @Size(max = 500) String coverImageUrl,
+        @Size(max = 300) String serviceUrl,
+        @Size(max = 300) String appStoreUrl,
+        @Size(max = 300) String playStoreUrl
 ) {}

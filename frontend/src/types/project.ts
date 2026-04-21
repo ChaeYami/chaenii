@@ -12,6 +12,9 @@ export interface Project {
   githubUrl?: string;
   notionUrl?: string;
   coverImageUrl?: string;
+  serviceUrl?: string;
+  appStoreUrl?: string;
+  playStoreUrl?: string;
 }
 
 export interface ProjectDetail extends Project {

@@ -19,6 +19,9 @@ public record ProjectResponse(
         String notionUrl,
         String detailContent,
         String coverImageUrl,
+        String serviceUrl,
+        String appStoreUrl,
+        String playStoreUrl,
         int sortOrder
 ) {
     public static ProjectResponse from(Project project) {
@@ -37,6 +40,9 @@ public record ProjectResponse(
                 project.getNotionUrl(),
                 project.getDetailContent(),
                 project.getCoverImageUrl(),
+                project.getServiceUrl(),
+                project.getAppStoreUrl(),
+                project.getPlayStoreUrl(),
                 project.getSortOrder()
         );
     }

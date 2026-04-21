@@ -13,6 +13,9 @@ export interface AdminProject {
   progress?: number;
   detailContent: string;
   coverImageUrl?: string;
+  serviceUrl?: string;
+  appStoreUrl?: string;
+  playStoreUrl?: string;
   sortOrder: number;
 }
 
@@ -30,6 +33,9 @@ export interface ProjectFormData {
   progress?: number;
   detailContent: string;
   coverImageUrl?: string;
+  serviceUrl?: string;
+  appStoreUrl?: string;
+  playStoreUrl?: string;
 }
 
 export interface AdminStudy {

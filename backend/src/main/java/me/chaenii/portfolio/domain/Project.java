@@ -55,6 +55,15 @@ public class Project {
     @Column(name = "cover_image_url", length = 500)
     private String coverImageUrl;
 
+    @Column(name = "service_url", length = 300)
+    private String serviceUrl;
+
+    @Column(name = "app_store_url", length = 300)
+    private String appStoreUrl;
+
+    @Column(name = "play_store_url", length = 300)
+    private String playStoreUrl;
+
     @Column(name = "sort_order", nullable = false)
     private int sortOrder;
 
@@ -69,7 +78,8 @@ public class Project {
     public static Project create(String slug, String name, String category, String period,
                                   String role, String description, List<String> skills,
                                   String status, Integer progress, String githubUrl,
-                                  String notionUrl, String detailContent, String coverImageUrl) {
+                                  String notionUrl, String detailContent, String coverImageUrl,
+                                  String serviceUrl, String appStoreUrl, String playStoreUrl) {
         Project p = new Project();
         p.slug = slug;
         p.name = name;
@@ -84,6 +94,9 @@ public class Project {
         p.notionUrl = notionUrl;
         p.detailContent = detailContent;
         p.coverImageUrl = coverImageUrl;
+        p.serviceUrl = serviceUrl;
+        p.appStoreUrl = appStoreUrl;
+        p.playStoreUrl = playStoreUrl;
         p.sortOrder = 0;
         p.createdAt = LocalDateTime.now();
         p.updatedAt = LocalDateTime.now();
@@ -93,7 +106,8 @@ public class Project {
     public void update(String slug, String name, String category, String period,
                        String role, String description, List<String> skills,
                        String status, Integer progress, String githubUrl,
-                       String notionUrl, String detailContent, String coverImageUrl) {
+                       String notionUrl, String detailContent, String coverImageUrl,
+                       String serviceUrl, String appStoreUrl, String playStoreUrl) {
         this.slug = slug;
         this.name = name;
         this.category = category;
@@ -107,6 +121,9 @@ public class Project {
         this.notionUrl = notionUrl;
         this.detailContent = detailContent;
         this.coverImageUrl = coverImageUrl;
+        this.serviceUrl = serviceUrl;
+        this.appStoreUrl = appStoreUrl;
+        this.playStoreUrl = playStoreUrl;
         this.updatedAt = LocalDateTime.now();
     }
 
@@ -128,6 +145,9 @@ public class Project {
     public String getNotionUrl() { return notionUrl; }
     public String getDetailContent() { return detailContent; }
     public String getCoverImageUrl() { return coverImageUrl; }
+    public String getServiceUrl() { return serviceUrl; }
+    public String getAppStoreUrl() { return appStoreUrl; }
+    public String getPlayStoreUrl() { return playStoreUrl; }
     public int getSortOrder() { return sortOrder; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }

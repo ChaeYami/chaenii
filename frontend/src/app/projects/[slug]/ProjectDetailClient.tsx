@@ -145,6 +145,21 @@ export default function ProjectDetailClient() {
           </article>
 
           <div className="mt-12 flex flex-wrap gap-3">
+            {project.serviceUrl && (
+              <a href={project.serviceUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="primary">서비스 바로가기 →</Button>
+              </a>
+            )}
+            {project.appStoreUrl && (
+              <a href={project.appStoreUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="primary">App Store</Button>
+              </a>
+            )}
+            {project.playStoreUrl && (
+              <a href={project.playStoreUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="primary">Google Play</Button>
+              </a>
+            )}
             {project.githubUrl && (
               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                 <Button variant="default">GitHub</Button>
