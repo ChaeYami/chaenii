@@ -31,6 +31,14 @@ export async function request<T>(
     },
   });
 
+  if (res.status === 503 && typeof window !== "undefined") {
+    if (window.location.pathname.startsWith("/admin")) {
+      throw new ApiError(503, null, "서비스 점검 중입니다");
+    }
+    window.location.href = "/maintenance.html";
+    return new Promise<T>(() => {});
+  }
+
   if (!res.ok) {
     const body = await res.json().catch(() => null);
     throw new ApiError(
