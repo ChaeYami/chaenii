@@ -1,3 +1,11 @@
-build
+.git
 .gradle
-bin
+.idea
+build/
+bin/
+**/*.md
+**/.DS_Store
+**/*.log
+**/node_modules
+**/.env
+**/.env.local

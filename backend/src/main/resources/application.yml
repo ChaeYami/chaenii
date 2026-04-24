@@ -2,6 +2,12 @@ spring:
   application:
     name: chaenii-portfolio
 
+  main:
+    lazy-initialization: true
+
+  jmx:
+    enabled: false
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -36,7 +42,9 @@ management:
         include: health,info,metrics
   endpoint:
     health:
-      show-details: when-authorized
+      show-details: never
+      probes:
+        enabled: true
 
 springdoc:
   api-docs:
