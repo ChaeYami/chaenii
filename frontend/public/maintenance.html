@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>서비스 점검 중 · chaenii.me</title>
+  <style>
+    :root {
+      --color-bg: #0D0D0F;
+      --color-surface: #1A1A24;
+      --color-border: #2A2A3A;
+      --color-text-primary: #d4d4d4;
+      --color-text-secondary: #cbcbcb;
+      --color-text-muted: #64748B;
+      --color-purple: rgb(210, 159, 255);
+      --color-purple-soft: rgba(210, 159, 255, 0.15);
+      --color-purple-border: rgba(210, 159, 255, 0.4);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --color-bg: #FAFAFA;
+        --color-surface: #FFFFFF;
+        --color-border: #E5E5EA;
+        --color-text-primary: #1A1A24;
+        --color-text-secondary: #3A3A44;
+        --color-text-muted: #64748B;
+        --color-purple: rgb(139, 92, 200);
+        --color-purple-soft: rgba(139, 92, 200, 0.10);
+        --color-purple-border: rgba(139, 92, 200, 0.35);
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      font-family: "Pretendard Variable", "Pretendard", -apple-system,
+        BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    main {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      text-align: center;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 0.75rem;
+      padding: 3rem 2rem;
+    }
+
+    .icon {
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-bottom: 1.25rem;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.75rem;
+      color: var(--color-text-primary);
+    }
+
+    p {
+      margin: 0 0 0.5rem;
+      color: var(--color-text-secondary);
+    }
+
+    .muted {
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+
+    .countdown {
+      margin: 2rem auto 0.5rem;
+      padding: 0.875rem 1.25rem;
+      display: inline-block;
+      border: 1px solid var(--color-purple-border);
+      background: var(--color-purple-soft);
+      color: var(--color-purple);
+      border-radius: 0.5rem;
+      font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, monospace;
+      font-size: 1rem;
+      font-variant-numeric: tabular-nums;
+      min-width: 13rem;
+    }
+
+    .schedule {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 2.25rem 1.5rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main role="main">
+    <section class="card" aria-labelledby="title">
+      <span class="icon" aria-hidden="true">⏰</span>
+      <h1 id="title">서비스 점검 중</h1>
+      <p class="schedule">
+        매일 <strong>03:00 ~ 07:00 (KST, UTC+9)</strong> 사이에<br />
+        서버 최적화를 위한 정기 점검이 진행됩니다.
+      </p>
+
+      <div
+        class="countdown"
+        id="countdown"
+        role="status"
+        aria-live="polite"
+        aria-label="서비스 재개까지 남은 시간"
+      >
+        재개 시간 계산 중…
+      </div>
+
+      <p class="muted" id="hint">잠시 후 다시 방문해 주세요.</p>
+
+      <footer>
+        <p class="muted">운영자 · Chaeyeon</p>
+        <!-- TODO: GitHub, Email 링크 추가 -->
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var MAINT_START_HOUR = 3;
+      var MAINT_END_HOUR = 7;
+
+      var countdownEl = document.getElementById("countdown");
+      var hintEl = document.getElementById("hint");
+
+      function getKstParts() {
+        var now = new Date();
+        var utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+        var kst = new Date(utcMs + 9 * 60 * 60000);
+        return {
+          h: kst.getUTCHours(),
+          m: kst.getUTCMinutes(),
+          s: kst.getUTCSeconds(),
+        };
+      }
+
+      function pad(n) {
+        return n < 10 ? "0" + n : "" + n;
+      }
+
+      function render() {
+        var t = getKstParts();
+        var inWindow = t.h >= MAINT_START_HOUR && t.h < MAINT_END_HOUR;
+
+        if (!inWindow) {
+          countdownEl.textContent = "예상치 못한 오류가 발생했습니다";
+          hintEl.textContent =
+            "일시적인 장애일 수 있습니다. 잠시 후 다시 시도해 주세요.";
+          return false;
+        }
+
+        var secondsSinceMidnight = t.h * 3600 + t.m * 60 + t.s;
+        var remaining = MAINT_END_HOUR * 3600 - secondsSinceMidnight;
+        if (remaining < 0) remaining = 0;
+
+        var mm = Math.floor(remaining / 60);
+        var ss = remaining % 60;
+        countdownEl.textContent =
+          "약 " + pad(mm) + "분 " + pad(ss) + "초 후 재개";
+        return true;
+      }
+
+      if (render()) {
+        setInterval(render, 1000);
+      }
+    })();
+  </script>
+</body>
+</html>
