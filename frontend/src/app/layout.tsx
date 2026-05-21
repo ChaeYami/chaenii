@@ -3,7 +3,6 @@ import { DM_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { Navbar, Footer } from "@/components/layout";
 import Providers from "@/components/layout/Providers";
-import HealthCheckProvider from "@/components/HealthCheckProvider";
 import "./globals.css";
 import "highlight.js/styles/github-dark-dimmed.css";
 
@@ -37,11 +36,9 @@ export default function RootLayout({
         className={`${pretendard.variable} ${dmMono.variable} font-sans antialiased`}
       >
         <Providers>
-          <HealthCheckProvider>
-            <Navbar />
-            <div className="pt-16">{children}</div>
-            <Footer />
-          </HealthCheckProvider>
+          <Navbar />
+          <div className="pt-16">{children}</div>
+          <Footer />
         </Providers>
       </body>
     </html>
