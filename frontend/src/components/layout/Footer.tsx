@@ -5,6 +5,20 @@ export default function Footer() {
         &copy; 2026 Chaeyeon Seo &middot; All rights reserved &middot; Built with{" "}
         <a href="/admin" className="cursor-pointer">🤍</a>
       </p>
+      <p className="mt-3 text-center font-mono text-xs text-text-muted">
+        <span className="whitespace-nowrap">채온스튜디오</span>
+        <span className="mx-2">|</span>
+        <span className="whitespace-nowrap">대표 서채연</span>
+        <span className="mx-2">|</span>
+        <span className="whitespace-nowrap">사업자등록번호 582-59-00849</span>
+        <span className="mx-2">|</span>
+        <a
+          href="mailto:chaeon.studio@gmail.com"
+          className="whitespace-nowrap hover:text-text-secondary"
+        >
+          chaeon.studio@gmail.com
+        </a>
+      </p>
       <p
         className="mt-2 text-center font-mono text-xs text-text-muted"
         title="서비스 최적화를 위한 정기 점검입니다. 점검 시간 외엔 정상 운영됩니다."
