@@ -23,6 +23,9 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   title: "chaenii.me",
   description: "Backend Developer Portfolio",
+  verification: {
+    google: "VX7U2p3VgG9P_ZM8J9sv5ZchtMKTuHOLOtxyFJ6jaFc",
+  },
 };
 
 export default function RootLayout({
