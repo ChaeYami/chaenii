@@ -22,14 +22,25 @@ export async function request<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const res = await fetch(`${API_URL}${path}`, {
-    ...options,
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      ...options,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
+    });
+  } catch {
+    // 백엔드에 연결할 수 없음 (점검으로 서버를 내린 경우 503이 아니라
+    // 네트워크 에러로 reject되므로, 503과 동일하게 점검 페이지로 보낸다)
+    if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin")) {
+      window.location.href = "/maintenance.html";
+      return new Promise<T>(() => {});
+    }
+    throw new ApiError(0, null, "서버에 연결할 수 없습니다");
+  }
 
   if (res.status === 503 && typeof window !== "undefined") {
     if (window.location.pathname.startsWith("/admin")) {
