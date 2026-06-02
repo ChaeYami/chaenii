@@ -15,6 +15,8 @@ export interface Project {
   serviceUrl?: string;
   appStoreUrl?: string;
   playStoreUrl?: string;
+  // 목록 API도 detailContent를 내려주므로 카드에서 상세보기 노출 여부 판단에 사용
+  detailContent?: string;
 }
 
 export interface ProjectDetail extends Project {
