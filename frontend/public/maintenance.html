@@ -181,8 +181,13 @@
         };
       }
 
-      function pad(n) {
-        return n < 10 ? "0" + n : "" + n;
+      function formatRemaining(remaining) {
+        var h = Math.floor(remaining / 3600);
+        var m = Math.floor((remaining % 3600) / 60);
+        var s = remaining % 60;
+        if (h > 0) return "약 " + h + "시간 " + m + "분 후 재개";
+        if (m > 0) return "약 " + m + "분 후 재개";
+        return "약 " + s + "초 후 재개";
       }
 
       function render() {
@@ -200,10 +205,8 @@
         var remaining = MAINT_END_HOUR * 3600 - secondsSinceMidnight;
         if (remaining < 0) remaining = 0;
 
-        var mm = Math.floor(remaining / 60);
-        var ss = remaining % 60;
-        countdownEl.textContent =
-          "약 " + pad(mm) + "분 " + pad(ss) + "초 후 재개";
+        countdownEl.textContent = formatRemaining(remaining);
+        hintEl.textContent = "오전 7시(KST)에 다시 열려요.";
         return true;
       }
 
