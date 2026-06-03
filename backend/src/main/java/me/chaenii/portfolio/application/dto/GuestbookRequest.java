@@ -11,5 +11,8 @@ public record GuestbookRequest(
         String content,
 
         @NotBlank @Size(min = 4, max = 20)
-        String password
+        String password,
+
+        // 하니팟: 사람은 비워두고, 폼을 긁는 봇이 채우는 함정 필드
+        String website
 ) {}

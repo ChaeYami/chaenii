@@ -17,6 +17,7 @@ function GuestbookForm() {
     nickname: "",
     content: "",
     password: "",
+    website: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const create = useCreateGuestbook();
@@ -36,7 +37,7 @@ function GuestbookForm() {
     setErrors({});
     create.mutate(result.data, {
       onSuccess: () => {
-        setForm({ nickname: "", content: "", password: "" });
+        setForm({ nickname: "", content: "", password: "", website: "" });
         toast("success", "방명록이 등록되었습니다.");
       },
       onError: (err) => {
@@ -47,6 +48,17 @@ function GuestbookForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
+      {/* 하니팟: 봇만 채우는 함정 필드 (사람 눈엔 안 보임) */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        value={form.website ?? ""}
+        onChange={(e) => setForm({ ...form, website: e.target.value })}
+        className="absolute left-[-9999px] h-0 w-0 opacity-0"
+      />
       <div className="flex gap-3">
         <div className="flex-1">
           <Input

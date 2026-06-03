@@ -4,6 +4,7 @@ import me.chaenii.portfolio.application.dto.*;
 import me.chaenii.portfolio.domain.DomainException;
 import me.chaenii.portfolio.domain.Guestbook;
 import me.chaenii.portfolio.domain.GuestbookRepository;
+import me.chaenii.portfolio.infrastructure.spam.SpamDetector;
 import me.chaenii.portfolio.presentation.ErrorCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,14 @@ public class GuestbookService {
 
     @Transactional
     public GuestbookResponse create(GuestbookRequest request) {
+        // 하니팟이 채워졌으면 폼을 긁은 봇 → 거부
+        if (request.website() != null && !request.website().isBlank()) {
+            throw new DomainException(ErrorCode.G001, "등록할 수 없는 요청입니다.");
+        }
+        if (SpamDetector.isSpam(request.nickname(), request.content())) {
+            throw new DomainException(ErrorCode.G001, "스팸으로 의심되는 내용은 등록할 수 없어요.");
+        }
+
         Guestbook guestbook = Guestbook.create(
                 request.nickname(),
                 request.content(),
