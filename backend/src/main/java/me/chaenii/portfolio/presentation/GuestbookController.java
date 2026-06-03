@@ -1,8 +1,10 @@
 package me.chaenii.portfolio.presentation;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import me.chaenii.portfolio.application.GuestbookService;
 import me.chaenii.portfolio.application.dto.*;
+import me.chaenii.portfolio.infrastructure.spam.ClientIpResolver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,8 +30,10 @@ public class GuestbookController {
     }
 
     @PostMapping
-    public ApiResponse<GuestbookResponse> create(@Valid @RequestBody GuestbookRequest request) {
-        return ApiResponse.ok(guestbookService.create(request));
+    public ApiResponse<GuestbookResponse> create(@Valid @RequestBody GuestbookRequest request,
+                                                 HttpServletRequest httpRequest) {
+        String clientIp = ClientIpResolver.resolve(httpRequest);
+        return ApiResponse.ok(guestbookService.create(request, clientIp));
     }
 
     @DeleteMapping("/{id}")
