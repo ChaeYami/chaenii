@@ -24,11 +24,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const hasDetail = !!project.detailContent?.trim();
   const detailHref = `/projects/${project.slug}`;
   const links = externalLinks(project);
-  // 본문 클릭 = 대표 외부 링크. 외부 링크가 없으면 상세 페이지로, 그것도 없으면 클릭 불가
-  const primary = links[0]?.href;
+  // 본문 클릭 = 스토어/서비스 링크 우선. 없으면 상세 페이지로 (GitHub·Notion은 본문 대상에서 제외)
+  const primary = project.serviceUrl ?? project.appStoreUrl ?? project.playStoreUrl;
   const bodyHref = primary ?? (hasDetail ? detailHref : null);
   const bodyExternal = primary != null;
-  // 본문이 이미 상세로 가는 경우(외부 링크 없음)엔 하단 상세보기 버튼은 생략
+  // 본문이 이미 상세로 가는 경우(스토어/서비스 링크 없음)엔 하단 상세보기 버튼은 생략
   const showDetailButton = hasDetail && primary != null;
 
   const body = (
