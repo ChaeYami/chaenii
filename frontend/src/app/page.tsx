@@ -20,10 +20,10 @@ export default function Home() {
         <CurrentlyBuilding />
       </Suspense>
       <Skills />
+      <About />
       <Suspense>
         <StudySection />
       </Suspense>
-      <About />
       <GuestbookSection />
     </main>
   );
