@@ -25,7 +25,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const detailHref = `/projects/${project.slug}`;
   const links = externalLinks(project);
   // 본문 클릭 = 스토어/서비스 링크 우선. 없으면 상세 페이지로 (GitHub·Notion은 본문 대상에서 제외)
-  const primary = project.serviceUrl ?? project.appStoreUrl ?? project.playStoreUrl;
+  // 빈 값이 null이 아니라 "" 로 내려오는 프로젝트가 있어 ?? 가 아닌 truthy(find)로 첫 유효 링크를 고른다
+  const primary = [project.serviceUrl, project.appStoreUrl, project.playStoreUrl].find(Boolean);
   const bodyHref = primary ?? (hasDetail ? detailHref : null);
   const bodyExternal = primary != null;
   // 본문이 이미 상세로 가는 경우(스토어/서비스 링크 없음)엔 하단 상세보기 버튼은 생략

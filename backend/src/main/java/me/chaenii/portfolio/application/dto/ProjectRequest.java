@@ -22,4 +22,20 @@ public record ProjectRequest(
         @Size(max = 300) String serviceUrl,
         @Size(max = 300) String appStoreUrl,
         @Size(max = 300) String playStoreUrl
-) {}
+) {
+    // 선택 입력 필드는 빈 문자열("") 대신 null로 정규화한다.
+    // ""로 저장되면 프론트의 ?? (nullish) 분기가 "값 있음"으로 오판해 카드 링크가 깨진다.
+    public ProjectRequest {
+        githubUrl = blankToNull(githubUrl);
+        notionUrl = blankToNull(notionUrl);
+        detailContent = blankToNull(detailContent);
+        coverImageUrl = blankToNull(coverImageUrl);
+        serviceUrl = blankToNull(serviceUrl);
+        appStoreUrl = blankToNull(appStoreUrl);
+        playStoreUrl = blankToNull(playStoreUrl);
+    }
+
+    private static String blankToNull(String s) {
+        return (s == null || s.isBlank()) ? null : s;
+    }
+}
