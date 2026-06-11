@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { fadeUp, transition } from "@/hooks/useScrollAnimation";
+import { useProjects } from "@/hooks/useProjects";
 import { Button, Badge } from "@/components/ui";
 
 const container = {
@@ -14,6 +15,11 @@ const container = {
 export default function Hero() {
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 200], [1, 0]);
+
+  const { data: allProjects } = useProjects();
+  const buildingNames = allProjects
+    ?.filter((p) => p.status === "building")
+    .map((p) => p.name);
 
   return (
     <section className="relative min-h-[90vh] overflow-hidden">
@@ -58,13 +64,15 @@ export default function Hero() {
             기획, 설계부터 개발, 배포, 유지보수까지
           </motion.p>
 
-          <motion.div
-            className="mt-6"
-            variants={fadeUp}
-            transition={transition}
-          >
-            <Badge>🔨 Building: BallCap · DearMI</Badge>
-          </motion.div>
+          {buildingNames && buildingNames.length > 0 && (
+            <motion.div
+              className="mt-6"
+              variants={fadeUp}
+              transition={transition}
+            >
+              <Badge>🔨 Building: {buildingNames.join(" · ")}</Badge>
+            </motion.div>
+          )}
 
           <motion.div
             className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start"
