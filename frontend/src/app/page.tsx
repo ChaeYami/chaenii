@@ -4,6 +4,7 @@ import {
   About,
   Skills,
   Projects,
+  ChaeonStudio,
   CurrentlyBuilding,
   GuestbookSection,
   StudySection,
@@ -16,6 +17,7 @@ export default function Home() {
       <Suspense>
         <Projects />
       </Suspense>
+      <ChaeonStudio />
       <Suspense>
         <CurrentlyBuilding />
       </Suspense>
