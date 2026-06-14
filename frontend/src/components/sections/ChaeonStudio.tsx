@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useScrollAnimation, fadeUp, transition } from "@/hooks/useScrollAnimation";
 
@@ -35,51 +36,36 @@ export default function ChaeonStudio() {
             className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-purple/10 blur-3xl"
           />
 
-          <div className="relative flex flex-col items-start gap-8 sm:flex-row sm:items-center sm:justify-between">
-            <div className="max-w-xl">
-              <div className="flex items-center gap-3">
-                {/* 파워 아이콘 모티프 (로고 오마주) */}
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-pink/40 bg-pink/10">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5 text-pink"
-                    aria-hidden
-                  >
-                    <path d="M12 4v8" />
-                    <path d="M7.5 7a7 7 0 1 0 9 0" />
-                  </svg>
-                </span>
-                <div>
-                  <h2 className="text-2xl font-bold tracking-tight">Chaeon Studio</h2>
-                  <p className="font-mono text-xs text-text-muted">
-                    small apps, warmly made.
-                  </p>
-                </div>
-              </div>
+          <div className="relative flex flex-col items-center gap-8">
+            {/* 로고 배너 */}
+            <Image
+              src="/chaeon-studio.png"
+              alt="Chaeon Studio — small apps, warmly made."
+              width={3554}
+              height={1092}
+              priority={false}
+              className="w-full max-w-2xl rounded-xl"
+            />
 
-              <p className="mt-5 leading-relaxed text-text-secondary">
+            <div className="flex w-full flex-col items-center gap-6 sm:flex-row sm:justify-between">
+              <p className="text-center leading-relaxed text-text-secondary sm:text-left">
                 직접 기획하고 만들어 운영 중인 1인 앱 스튜디오입니다.
                 <br />
-                오늘한장 · 발자국 · DearMI 모두 이곳에서 시작됐어요.
+                각 앱의 고객센터를 운영중입니다.
               </p>
-            </div>
 
-            <a
-              href="https://chaeon.studio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex shrink-0 items-center gap-2 rounded-xl border border-pink/40 bg-pink/10 px-5 py-3 text-sm font-medium text-pink transition-colors duration-200 hover:bg-pink/20"
-            >
-              chaeon.studio 방문
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                ↗
-              </span>
-            </a>
+              <a
+                href="https://chaeon.studio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex shrink-0 items-center gap-2 rounded-xl border border-pink/40 bg-pink/10 px-5 py-3 text-sm font-medium text-pink transition-colors duration-200 hover:bg-pink/20"
+              >
+                chaeon.studio 방문
+                <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                  ↗
+                </span>
+              </a>
+            </div>
           </div>
         </motion.div>
       </motion.div>
