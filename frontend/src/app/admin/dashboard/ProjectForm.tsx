@@ -57,6 +57,7 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
   const [uploadingCover, setUploadingCover] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
+  const editorWrapRef = useRef<HTMLDivElement>(null);
 
   const handleCoverImageFile = async (file: File) => {
     if (!file.type.startsWith("image/")) return;
@@ -71,7 +72,25 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
 
   const insertImageMarkdown = (url: string, filename: string) => {
     const markdown = `\n![${filename}](${url})\n`;
-    update("detailContent", (form.detailContent ?? "") + markdown);
+    const current = form.detailContent ?? "";
+    const textarea = editorWrapRef.current?.querySelector<HTMLTextAreaElement>(
+      "textarea.w-md-editor-text-input"
+    );
+
+    // 커서가 에디터 안에 있으면 그 위치에, 없으면 맨 뒤에 삽입
+    if (textarea) {
+      const start = textarea.selectionStart ?? current.length;
+      const end = textarea.selectionEnd ?? current.length;
+      const next = current.slice(0, start) + markdown + current.slice(end);
+      update("detailContent", next);
+      const caret = start + markdown.length;
+      requestAnimationFrame(() => {
+        textarea.focus();
+        textarea.setSelectionRange(caret, caret);
+      });
+    } else {
+      update("detailContent", current + markdown);
+    }
   };
 
   const handleImageFile = async (file: File) => {
@@ -287,7 +306,7 @@ export default function ProjectForm({ initial, onSubmit, onCancel, isPending, er
             onChange={(e) => e.target.files?.[0] && handleImageFile(e.target.files[0])}
           />
         </div>
-        <div onPaste={handlePaste}>
+        <div ref={editorWrapRef} onPaste={handlePaste}>
           <MDEditor
             value={form.detailContent}
             onChange={(val) => update("detailContent", val ?? "")}
