@@ -18,7 +18,7 @@
 
 ---
 
-## ✨ 이 프로젝트에서 보여주고 싶은 것
+## 핵심
 
 - **레이어드 + 의존성 역전 아키텍처** — `domain`이 인터페이스를 정의하고 `infrastructure`가 구현. 도메인이 JPA·프레임워크를 모르도록 격리.
 - **정적 호스팅의 한계를 우회한 개발 환경** — 운영은 S3 정적 export, 로컬 dev는 Next rewrites 프록시로 같은 출처 요청을 만들어 **CORS 없이** 운영 백엔드에 붙음.
@@ -29,7 +29,7 @@
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Layer        | Tech                                                                 |
 | ------------ | ------------------------------------------------------------------- |
@@ -42,7 +42,7 @@
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 ```
                   ┌──────────────────────────────┐
@@ -79,7 +79,7 @@ infrastructure/   JpaXxxRepository(구현) · security · S3ImageService · spam
 
 ---
 
-## 🔍 핵심 구현 포인트
+## 핵심 구현 포인트
 
 ### 1. 정적 export + dev 프록시로 CORS 없애기
 - 운영 프론트는 S3에 올라가는 **정적 파일**이라 서버 사이드 프록시가 없습니다. 그래서 로컬 개발에선
@@ -109,7 +109,7 @@ infrastructure/   JpaXxxRepository(구현) · security · S3ImageService · spam
 
 ---
 
-## 📦 주요 기능
+## 주요 기능
 
 - **Portfolio** — 프로젝트 목록/상세(마크다운), 카테고리 필터, 커버 이미지, 서비스/스토어/GitHub 링크
 - **Guestbook** — 익명 방명록, 비밀번호 삭제, 관리자 답글·숨김, 스팸/레이트리밋 방어
@@ -119,7 +119,7 @@ infrastructure/   JpaXxxRepository(구현) · security · S3ImageService · spam
 
 ---
 
-## 🗄 Data Model
+## Data Model
 
 `project` · `project_skill` · `guestbook` · `study` 4개 테이블. 스키마 변경은 모두 Flyway로 버전 관리.
 
@@ -135,7 +135,7 @@ backend/src/main/resources/db/migration/
 
 ---
 
-## 🚀 Local Development
+## Local Development
 
 ```bash
 # 1. DB
@@ -154,7 +154,7 @@ cd frontend && npm install && npm run dev
 
 ---
 
-## ☁️ Deployment
+## Deployment
 
 `main` 브랜치 push 시 변경 경로에 따라 GitHub Actions가 자동 배포합니다.
 
@@ -197,7 +197,7 @@ SPRING_PROFILES_ACTIVE=prod
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 chaenii/
@@ -221,7 +221,7 @@ chaenii/
 
 ---
 
-## 📡 API
+## API
 
 | 구분   | 대표 엔드포인트 |
 | ------ | --------------- |
