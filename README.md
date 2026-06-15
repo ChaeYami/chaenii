@@ -1,6 +1,6 @@
 # chaenii.me
 
-> 디자인 · 프론트엔드 · 백엔드 · 인프라까지 **혼자 설계하고 배포한 풀스택 포트폴리오 사이트**
+> 디자인 · 프론트엔드 · 백엔드 · 인프라 **풀스택 포트폴리오 사이트**
 
 [![Live](https://img.shields.io/badge/Live-chaenii.me-7C5CFF)](https://chaenii.me)
 ![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs)
@@ -8,9 +8,9 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-S3_·_CloudFront_·_ECS-FF9900?logo=amazonaws&logoColor=white)
 
-프로젝트를 나열하기만 하는 정적 포트폴리오가 아니라, **직접 운영하는 서비스**로 만들었습니다.
+프로젝트를 나열하기만 하는 정적 포트폴리오가 아니라, **직접 운영하는 서비스**로 제작.
 프로젝트·방명록·스터디 기록을 관리자 페이지에서 직접 CRUD 하고, 마크다운으로 상세 페이지를 쓰고,
-이미지를 올리고, 방명록 스팸을 걸러내는 — 작지만 끝까지 굴러가는 프로덕션을 목표로 했습니다.
+이미지를 올리고, 방명록 스팸을 걸러내는 — 작지만 끝까지 굴러가는 프로덕션을 목표로.
 
 🔗 **Live:** [chaenii.me](https://chaenii.me) · 관리자 페이지(`/admin`)는 비공개
 
