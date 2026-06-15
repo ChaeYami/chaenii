@@ -8,9 +8,11 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-S3_·_CloudFront_·_ECS-FF9900?logo=amazonaws&logoColor=white)
 
-프로젝트를 나열하기만 하는 정적 포트폴리오가 아니라, **직접 운영하는 서비스**로 제작.
-프로젝트·방명록·스터디 기록을 관리자 페이지에서 직접 CRUD 하고, 마크다운으로 상세 페이지를 쓰고,
-이미지를 올리고, 방명록 스팸을 걸러내는 — 작지만 끝까지 굴러가는 프로덕션을 목표로.
+프로젝트를 나열하기만 하는 정적 포트폴리오가 아니라, **직접 운영하는 서비스**로 제작.  
+- 프로젝트·방명록·스터디 기록을 관리자 페이지에서 직접 CRUD
+- 마크다운으로 상세 페이지 작성 및 이미지 첨부
+- 방명록 스팸 걸러내기
+> 작지만 끝까지 굴러가는 프로덕션을 목표로.  
 
 🔗 **Live:** [chaenii.me](https://chaenii.me) · 관리자 페이지(`/admin`)는 비공개
 
@@ -80,14 +82,15 @@ infrastructure/   JpaXxxRepository(구현) · security · S3ImageService · spam
 ## 🔍 핵심 구현 포인트
 
 ### 1. 정적 export + dev 프록시로 CORS 없애기
-운영 프론트는 S3에 올라가는 **정적 파일**이라 서버 사이드 프록시가 없습니다. 그래서 로컬 개발에선
-`next.config.mjs`가 환경에 따라 갈라집니다 — dev에서는 `output: export`를 끄고 `rewrites`로 `/api/*`를
+- 운영 프론트는 S3에 올라가는 **정적 파일**이라 서버 사이드 프록시가 없습니다. 그래서 로컬 개발에선
+`next.config.mjs`가 환경에 따라 갈라집니다  
+- dev에서는 `output: export`를 끄고 `rewrites`로 `/api/*`를
 운영 백엔드로 프록시. 브라우저는 항상 같은 출처(`localhost`)로 요청하므로 **CORS preflight 자체가 사라집니다.**
 
 ### 2. HttpOnly 쿠키 JWT 인증
-로그인 시 발급한 JWT를 응답 바디가 아닌 `HttpOnly · Secure · SameSite` 쿠키로 내려줍니다.
-JS에서 토큰을 읽을 수 없어 XSS 탈취를 막고, 프론트는 `credentials: 'include'`로 자동 인증.
-`JwtAuthenticationFilter`가 모든 요청에서 쿠키를 검증하고 `SecurityConfig`가 public/admin 경로를 분리합니다.
+- 로그인 시 발급한 JWT를 응답 바디가 아닌 `HttpOnly · Secure · SameSite` 쿠키로
+- JS에서 토큰을 읽을 수 없어 XSS 탈취를 막고, 프론트는 `credentials: 'include'`로 자동 인증.
+- `JwtAuthenticationFilter`가 모든 요청에서 쿠키를 검증하고 `SecurityConfig`가 public/admin 경로를 분리합니다.
 
 ### 3. 익명 방명록을 안전하게
 - **Rate Limiting** — `RateLimitInterceptor` + `ClientIpResolver`로 IP당 요청 빈도 제한
@@ -95,8 +98,10 @@ JS에서 토큰을 읽을 수 없어 XSS 탈취를 막고, 프론트는 `credent
 - **비밀번호** — BCrypt 해시로 저장, 본인만 삭제 가능 (관리자는 답글/숨김)
 
 ### 4. 콘텐츠 작성 경험
-관리자 대시보드에 마크다운 에디터를 붙이고, 이미지를 **붙여넣기/파일 첨부 시 커서 위치에 삽입**하도록
-구현했습니다. 업로드는 `S3ImageService`로 처리해 URL을 돌려받고, 상세 페이지는 `react-markdown`으로
+- 관리자 대시보드에 마크다운 에디터
+- 이미지를 **붙여넣기/파일 첨부 시 커서 위치에 삽입**하도록
+- 업로드는 `S3ImageService`로 처리해 URL을 돌려받고,
+- 상세 페이지는 `react-markdown`으로
 렌더링(코드 하이라이트·표·인용·이미지 크기 제한·플로팅 목차 포함).
 
 ### 5. 드래그로 정렬
