@@ -83,10 +83,10 @@ export default function ProjectDetailClient() {
               rehypePlugins={[rehypeRaw, rehypeHighlight]}
               components={{
                 h2: ({ children }) => (
-                  <h2 id={headingId(children)} className="mt-10 mb-4 text-2xl font-bold text-text-primary">{children}</h2>
+                  <h2 id={headingId(children)} className="scroll-mt-24 mt-10 mb-4 text-2xl font-bold text-text-primary">{children}</h2>
                 ),
                 h3: ({ children }) => (
-                  <h3 id={headingId(children)} className="mt-8 mb-3 text-xl font-semibold text-text-primary">{children}</h3>
+                  <h3 id={headingId(children)} className="scroll-mt-24 mt-8 mb-3 text-xl font-semibold text-text-primary">{children}</h3>
                 ),
             p: ({ children }) => (
               <p className="mb-4 leading-relaxed text-text-secondary">{children}</p>
