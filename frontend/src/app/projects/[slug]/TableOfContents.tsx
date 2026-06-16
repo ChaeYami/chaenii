@@ -45,7 +45,7 @@ export default function TableOfContents({ content }: { content: string }) {
   if (headings.length === 0) return null;
 
   return (
-    <nav className="hidden xl:block sticky top-24 w-8 shrink-0 self-start">
+    <nav className="hidden lg:block sticky top-24 w-8 shrink-0 self-start">
       <div className="group relative">
         {/* 기본 상태: 대시 라인들 */}
         <ul className="flex flex-col gap-2 py-1">

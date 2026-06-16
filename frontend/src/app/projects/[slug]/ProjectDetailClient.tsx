@@ -129,6 +129,19 @@ export default function ProjectDetailClient() {
               </summary>
             ),
             hr: () => <hr className="my-8 border-border" />,
+            // eslint-disable-next-line @next/next/no-img-element
+            img: ({ src, alt }) => (
+              <img
+                src={typeof src === "string" ? src : ""}
+                alt={alt ?? ""}
+                className="mx-auto my-6 block max-h-[600px] w-auto max-w-full rounded-xl border border-border"
+              />
+            ),
+            blockquote: ({ children }) => (
+              <blockquote className="my-6 border-l-4 border-purple/60 bg-surface-2/40 py-1 pl-4 pr-3 text-text-muted [&>p]:mb-2 [&>p:last-child]:mb-0">
+                {children}
+              </blockquote>
+            ),
             strong: ({ children }) => (
               <strong className="font-semibold">{children}</strong>
             ),

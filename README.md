@@ -1,59 +1,199 @@
 # chaenii.me
 
-> portfolio
+> 디자인 · 프론트엔드 · 백엔드 · 인프라 **풀스택 포트폴리오 사이트**
 
-## Stack
+[![Live](https://img.shields.io/badge/Live-chaenii.me-7C5CFF)](https://chaenii.me)
+![Next.js](https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?logo=springboot&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-S3_·_CloudFront_·_ECS-FF9900?logo=amazonaws&logoColor=white)
 
-| Layer    | Tech                                              |
-| -------- | ------------------------------------------------- |
-| Frontend | Next.js 15, TypeScript, Tailwind CSS, Framer Motion |
-| Backend  | Spring Boot 3.5, Java 17, Gradle                  |
-| DB       | PostgreSQL 16, Flyway                             |
-| Infra    | S3 + CloudFront (frontend), ECS Fargate (backend), RDS (DB) |
+프로젝트를 나열하기만 하는 정적 포트폴리오가 아니라, **직접 운영하는 서비스**로 제작.  
+- 프로젝트·방명록·스터디 기록을 관리자 페이지에서 직접 CRUD
+- 마크다운으로 상세 페이지 작성 및 이미지 첨부
+- 방명록 스팸 걸러내기
+> 작지만 끝까지 굴러가는 프로덕션을 목표로.  
 
----
-
-## Features
-
-- **Portfolio** — 프로젝트 목록/상세 페이지, 카테고리 필터링
-- **Guestbook** — 비밀번호 기반 방명록, 관리자 답글/숨김
-- **Admin Dashboard** — JWT 인증, 프로젝트 CRUD, 드래그 정렬(reorder)
-- **Dark Theme** — Linear.app 스타일 다크 UI
-- **CI/CD** — GitHub Actions 자동 배포 (프론트/백엔드 분리)
+🔗 **Live:** [chaenii.me](https://chaenii.me) · 관리자 페이지(`/admin`)는 비공개
 
 ---
 
-## API Endpoints
+## 핵심
 
-### Public
+- **레이어드 + 의존성 역전 아키텍처** — `domain`이 인터페이스를 정의하고 `infrastructure`가 구현. 도메인이 JPA·프레임워크를 모르도록 격리.
+- **정적 호스팅의 한계를 우회한 개발 환경** — 운영은 S3 정적 export, 로컬 dev는 Next rewrites 프록시로 같은 출처 요청을 만들어 **CORS 없이** 운영 백엔드에 붙음.
+- **쿠키 기반 JWT 인증** — 토큰을 JS에서 못 읽는 `HttpOnly` + `Secure` + `SameSite` 쿠키로 관리해 XSS로부터 토큰을 보호.
+- **방명록 어뷰징 방어** — IP 기반 Rate Limiting + 스팸 패턴 탐지 + BCrypt 비밀번호로 익명 작성/삭제를 안전하게.
+- **콘텐츠를 위한 작은 CMS** — 마크다운 에디터, S3 이미지 업로드(커서 위치 삽입·붙여넣기), 드래그로 프로젝트 순서 변경.
+- **CI/CD 분리 배포** — 프론트(S3+CloudFront)와 백엔드(ECR+ECS Fargate)를 GitHub Actions로 경로 변경 기반 자동 배포.
 
-| Method | Path                        | 설명                     |
-| ------ | --------------------------- | ------------------------ |
-| GET    | `/api/projects`             | 프로젝트 목록 (category 필터 지원) |
-| GET    | `/api/projects/{slug}`      | 프로젝트 상세             |
-| GET    | `/api/guestbook`            | 방명록 목록 (페이징)       |
-| POST   | `/api/guestbook`            | 방명록 작성               |
-| DELETE | `/api/guestbook/{id}`       | 방명록 삭제 (비밀번호 확인) |
+---
 
-### Auth
+## Tech Stack
 
-| Method | Path                | 설명         |
-| ------ | ------------------- | ------------ |
-| POST   | `/api/auth/login`   | 관리자 로그인 |
-| POST   | `/api/auth/logout`  | 로그아웃      |
+| Layer        | Tech                                                                 |
+| ------------ | ------------------------------------------------------------------- |
+| **Frontend** | Next.js 14 (App Router, 정적 export) · TypeScript · Tailwind CSS · Framer Motion |
+| **State/Data** | TanStack Query · Zod · dnd-kit(드래그 정렬) · react-markdown + @uiw/react-md-editor |
+| **Backend**  | Spring Boot 3.5 · Java 17 · Spring Security · Spring Data JPA · Gradle |
+| **Database** | PostgreSQL 16 · Flyway(마이그레이션)                                  |
+| **Infra**    | AWS S3 + CloudFront(프론트) · ECR + ECS Fargate(백엔드) · RDS · S3(이미지) |
+| **CI/CD**    | GitHub Actions(프론트/백엔드 분리 배포)                              |
 
-### Admin (ADMIN 권한 필요)
+---
 
-| Method | Path                           | 설명               |
-| ------ | ------------------------------ | ------------------ |
-| GET    | `/api/admin/projects`          | 프로젝트 목록       |
-| POST   | `/api/admin/projects`          | 프로젝트 생성       |
-| PUT    | `/api/admin/projects/{id}`     | 프로젝트 수정       |
-| DELETE | `/api/admin/projects/{id}`     | 프로젝트 삭제       |
-| PUT    | `/api/admin/projects/reorder`  | 프로젝트 순서 변경   |
-| POST   | `/api/guestbook/{id}/reply`    | 방명록 답글 작성     |
-| DELETE | `/api/guestbook/{id}/reply`    | 방명록 답글 삭제     |
-| PATCH  | `/api/guestbook/{id}/hide`     | 방명록 숨김 처리     |
+## Architecture
+
+```
+                  ┌──────────────────────────────┐
+   브라우저  ──►  │  CloudFront (HTTPS, 보안헤더)  │
+                  │  └─ S3  (Next.js 정적 export)  │
+                  └──────────────┬───────────────┘
+                                 │  /api/*  (XHR)
+                                 ▼
+                  ┌──────────────────────────────┐
+                  │  ECS Fargate (Spring Boot)    │
+                  │  presentation → application   │
+                  │       → domain ← infrastructure│
+                  └───────┬───────────────┬───────┘
+                          │               │
+                    ┌─────▼─────┐   ┌─────▼─────┐
+                    │ RDS (PG)  │   │ S3(이미지) │
+                    └───────────┘   └───────────┘
+```
+
+### 백엔드 레이어 구조 (의존성 역전)
+
+```
+presentation/    Controller · ApiResponse · ErrorCode · GlobalExceptionHandler
+      ▼
+application/      Service · DTO          ← 유스케이스 / 트랜잭션 경계
+      ▼
+domain/           Entity · Repository(인터페이스) · DomainException   ← 순수 도메인, 프레임워크 무지(無知)
+      ▲
+infrastructure/   JpaXxxRepository(구현) · security · S3ImageService · spam · RateLimit
+```
+
+`domain`은 `ProjectRepository` 같은 **인터페이스만** 정의하고, 실제 JPA 구현은 `infrastructure`에 둡니다.
+의존성이 도메인 안쪽을 향하게 만들어 비즈니스 로직을 인프라 교체로부터 분리했습니다.
+
+---
+
+## 핵심 구현 포인트
+
+### 1. 정적 export + dev 프록시로 CORS 없애기
+- 운영 프론트는 S3에 올라가는 **정적 파일**이라 서버 사이드 프록시가 없습니다. 그래서 로컬 개발에선
+`next.config.mjs`가 환경에 따라 갈라집니다  
+- dev에서는 `output: export`를 끄고 `rewrites`로 `/api/*`를
+운영 백엔드로 프록시. 브라우저는 항상 같은 출처(`localhost`)로 요청하므로 **CORS preflight 자체가 사라집니다.**
+
+### 2. HttpOnly 쿠키 JWT 인증
+- 로그인 시 발급한 JWT를 응답 바디가 아닌 `HttpOnly · Secure · SameSite` 쿠키로
+- JS에서 토큰을 읽을 수 없어 XSS 탈취를 막고, 프론트는 `credentials: 'include'`로 자동 인증.
+- `JwtAuthenticationFilter`가 모든 요청에서 쿠키를 검증하고 `SecurityConfig`가 public/admin 경로를 분리합니다.
+
+### 3. 익명 방명록을 안전하게
+- **Rate Limiting** — `RateLimitInterceptor` + `ClientIpResolver`로 IP당 요청 빈도 제한
+- **스팸 탐지** — `SpamDetector`가 작성 패턴을 검사
+- **비밀번호** — BCrypt 해시로 저장, 본인만 삭제 가능 (관리자는 답글/숨김)
+
+### 4. 콘텐츠 작성 경험
+- 관리자 대시보드에 마크다운 에디터
+- 이미지를 **붙여넣기/파일 첨부 시 커서 위치에 삽입**하도록
+- 업로드는 `S3ImageService`로 처리해 URL을 돌려받고,
+- 상세 페이지는 `react-markdown`으로
+렌더링(코드 하이라이트·표·인용·이미지 크기 제한·플로팅 목차 포함).
+
+### 5. 드래그로 정렬
+프로젝트 노출 순서를 `dnd-kit`으로 드래그해 바꾸고, `PUT /api/admin/projects/reorder`로 `sort_order`를 일괄 갱신.
+
+---
+
+## 주요 기능
+
+- **Portfolio** — 프로젝트 목록/상세(마크다운), 카테고리 필터, 커버 이미지, 서비스/스토어/GitHub 링크
+- **Guestbook** — 익명 방명록, 비밀번호 삭제, 관리자 답글·숨김, 스팸/레이트리밋 방어
+- **Study** — 학습 기록 섹션
+- **Admin Dashboard** — JWT 로그인, 프로젝트·스터디·방명록 관리, 드래그 정렬, 이미지 업로드
+- **Dark UI** — Linear.app 스타일 다크 테마 + Framer Motion 스크롤 애니메이션
+
+---
+
+## Data Model
+
+`project` · `project_skill` · `guestbook` · `study` 4개 테이블. 스키마 변경은 모두 Flyway로 버전 관리.
+
+```
+backend/src/main/resources/db/migration/
+├── V1__init_schema.sql           # guestbook
+├── V2__create_project.sql        # project + project_skill
+├── V3__add_cover_image_to_project.sql
+├── V4__create_study.sql
+├── V5__add_period_to_study.sql
+└── V6__add_service_urls_to_project.sql
+```
+
+---
+
+## Local Development
+
+```bash
+# 1. DB
+docker compose up -d postgres
+
+# 2. Backend (localhost:8080) — backend/.env 자동 로드
+cd backend && ./gradlew bootRun
+
+# 3. Frontend (localhost:3000)
+cd frontend && npm install && npm run dev
+```
+
+`backend/.env` 는 `backend/.env.example` 참고. 관리자 페이지는 `localhost:3000/admin`.
+
+> 프론트만 빠르게 보고 싶으면 백엔드 없이 `npm run dev` — dev 프록시가 `/api/*`를 운영 백엔드(`https://api.chaenii.me`)로 넘깁니다. (`DEV_API_PROXY_TARGET`로 로컬 백엔드 지정 가능)
+
+---
+
+## Deployment
+
+`main` 브랜치 push 시 변경 경로에 따라 GitHub Actions가 자동 배포합니다.
+
+| 변경 경로      | 파이프라인                                                      |
+| -------------- | -------------------------------------------------------------- |
+| `frontend/**`  | `next build` → S3 동기화 → CloudFront 무효화                    |
+| `backend/**`   | Docker 빌드 → ECR 푸시(`<git-sha>` + `latest`) → ECS 롤링 배포 |
+
+<details>
+<summary>인프라 상세 / 최초 셋업 가이드</summary>
+
+### Frontend (S3 + CloudFront)
+- S3: 퍼블릭 차단 + CloudFront **OAC**로만 접근
+- CloudFront: HTTP→HTTPS 리다이렉트, 403/404 → `/index.html`(200)로 SPA 라우팅, Viewer Function으로 URL rewrite
+- 보안 헤더: `infra/cf-security-headers.json`, 버킷 정책: `infra/s3-bucket-policy.json`
+- DNS(Route 53): `chaenii.me` A ALIAS → CloudFront, ACM 인증서는 **us-east-1** 발급
+
+### Backend (ECR + ECS Fargate)
+| 항목 | 값 |
+| ---- | -- |
+| ECR | `…/chaenii-backend` |
+| 리전 | `ap-northeast-2` |
+
+ECS 태스크 정의 환경변수 (민감값은 Secrets Manager 권장):
+
+```env
+DB_URL=jdbc:postgresql://<RDS_ENDPOINT>:5432/chaenii_db
+DB_USERNAME=...   DB_PASSWORD=<secret>
+ADMIN_USERNAME=<secret>   ADMIN_PASSWORD=<secret>
+JWT_SECRET=<secret, 32자 이상>
+CORS_ALLOWED_ORIGINS=https://chaenii.me,https://www.chaenii.me
+SPRING_PROFILES_ACTIVE=prod
+```
+
+### GitHub Secrets
+`AWS_ACCESS_KEY_ID` · `AWS_SECRET_ACCESS_KEY` · `S3_BUCKET` · `CF_DIST_ID` · `NEXT_PUBLIC_API_URL`
+(IAM은 S3/CloudFront/ECR/ECS 최소 권한으로 제한)
+
+</details>
 
 ---
 
@@ -61,233 +201,32 @@
 
 ```
 chaenii/
-├── .github/workflows/
-│   ├── deploy-frontend.yml
-│   └── deploy-backend.yml
-├── frontend/                    # Next.js App Router (static export)
+├── frontend/                     # Next.js App Router (정적 export)
 │   └── src/
-│       ├── app/
-│       │   ├── page.tsx                  # 홈 (Hero + Projects + Guestbook)
-│       │   ├── projects/[slug]/          # 프로젝트 상세
-│       │   ├── admin/                    # 관리자 로그인
-│       │   └── admin/dashboard/          # 관리자 대시보드
-│       ├── components/
-│       │   ├── ui/                       # Button, Badge, Input, Skeleton 등
-│       │   ├── sections/                 # Hero, Projects, Guestbook, CurrentlyBuilding
-│       │   └── layout/                   # Header, Footer
-│       ├── hooks/                        # useProjects, useGuestbook, useScrollAnimation
-│       ├── lib/api/                      # API 클라이언트 (client, projects, guestbook, auth, admin-projects)
-│       └── types/                        # Project, Guestbook, AdminProject 타입 정의
-├── backend/                     # Spring Boot (Layered Architecture)
-│   ├── .env                     # 로컬 전용, git 제외
-│   ├── .env.example
-│   └── src/main/
-│       ├── java/me/chaenii/portfolio/
-│       │   ├── domain/                   # Entity, Repository 인터페이스
-│       │   │   ├── Project.java
-│       │   │   ├── Guestbook.java
-│       │   │   ├── ProjectRepository.java
-│       │   │   └── GuestbookRepository.java
-│       │   ├── application/              # Service, DTO
-│       │   │   ├── ProjectService.java
-│       │   │   ├── GuestbookService.java
-│       │   │   └── dto/
-│       │   ├── infrastructure/           # JPA Repository 구현, Security, CORS
-│       │   │   ├── JpaProjectRepository.java
-│       │   │   ├── JpaGuestbookRepository.java
-│       │   │   └── security/
-│       │   │       ├── SecurityConfig.java
-│       │   │       ├── JwtProvider.java
-│       │   │       └── JwtAuthenticationFilter.java
-│       │   └── presentation/             # Controller, ErrorCode, GlobalExceptionHandler
-│       │       ├── ProjectController.java        # Public API
-│       │       ├── AdminProjectController.java   # Admin API
-│       │       ├── GuestbookController.java
-│       │       └── AuthController.java
-│       └── resources/
-│           ├── application.yml
-│           └── db/migration/             # Flyway
-│               ├── V1__init_schema.sql
-│               └── V2__create_project.sql
-├── infra/
-│   ├── cf-security-headers.json
-│   └── s3-bucket-policy.json
+│       ├── app/                  # 홈 · projects/[slug] · admin · admin/dashboard
+│       ├── components/           # ui · sections · layout
+│       ├── hooks/                # useProjects · useGuestbook · …
+│       ├── lib/api/              # API 클라이언트
+│       └── types/                # 도메인 타입
+├── backend/                      # Spring Boot (Layered + 의존성 역전)
+│   └── src/main/java/me/chaenii/portfolio/
+│       ├── domain/               # Entity · Repository 인터페이스
+│       ├── application/          # Service · DTO
+│       ├── infrastructure/       # JPA 구현 · security · S3 · spam · ratelimit
+│       └── presentation/         # Controller · 예외 처리
+├── infra/                        # CloudFront / S3 정책
+├── .github/workflows/            # deploy-frontend · deploy-backend
 └── docker-compose.yml
 ```
 
 ---
 
-## Database Schema
+## API
 
-### project
+| 구분   | 대표 엔드포인트 |
+| ------ | --------------- |
+| Public | `GET /api/projects` · `GET /api/projects/{slug}` · `GET·POST /api/guestbook` · `GET /api/study` |
+| Auth   | `POST /api/auth/login` · `POST /api/auth/logout` |
+| Admin  | `…/api/admin/projects` (CRUD) · `PUT …/projects/reorder` · `POST /api/admin/images` · 방명록 reply/hide |
 
-| Column         | Type         | 설명          |
-| -------------- | ------------ | ------------- |
-| id             | BIGSERIAL PK | 자동 증가 ID   |
-| slug           | VARCHAR(100) | URL용 고유 식별자 (UNIQUE) |
-| name           | VARCHAR(100) | 프로젝트 이름   |
-| category       | VARCHAR(50)  | 카테고리 (모바일앱, 백엔드, 팀 등) |
-| period         | VARCHAR(50)  | 개발 기간       |
-| role           | VARCHAR(100) | 담당 역할       |
-| description    | VARCHAR(500) | 한줄 설명       |
-| status         | VARCHAR(20)  | completed / building |
-| progress       | INTEGER      | 진행률 (building일 때) |
-| github_url     | VARCHAR(300) | GitHub 링크    |
-| notion_url     | VARCHAR(300) | Notion 링크    |
-| detail_content | TEXT         | 상세 내용 (마크다운) |
-| sort_order     | INTEGER      | 정렬 순서       |
-| created_at     | TIMESTAMP    | 생성일          |
-| updated_at     | TIMESTAMP    | 수정일          |
-
-### project_skill
-
-| Column     | Type         | 설명                    |
-| ---------- | ------------ | ----------------------- |
-| project_id | BIGINT FK    | project.id 참조 (CASCADE) |
-| skill      | VARCHAR(50)  | 기술 스택 이름            |
-
-### guestbook
-
-| Column     | Type         | 설명          |
-| ---------- | ------------ | ------------- |
-| id         | BIGSERIAL PK | 자동 증가 ID   |
-| nickname   | VARCHAR(30)  | 작성자 닉네임   |
-| content    | VARCHAR(500) | 내용           |
-| password   | VARCHAR(72)  | BCrypt 해시    |
-| reply      | VARCHAR(500) | 관리자 답글     |
-| hidden     | BOOLEAN      | 숨김 여부       |
-| created_at | TIMESTAMP    | 생성일          |
-| updated_at | TIMESTAMP    | 수정일          |
-
----
-
-## Security
-
-- **인증**: JWT (HttpOnly Cookie, Secure, SameSite=Strict)
-- **인가**: Spring Security — public 엔드포인트 외 ADMIN 권한 필요
-- **CORS**: `chaenii.me`, `www.chaenii.me` 허용 (credentials 포함)
-- **비밀번호**: BCrypt 해싱 (방명록), Spring Security 기본 인코딩 (관리자)
-- **Rate Limiting**: API 요청 제한
-
----
-
-## Local Development
-
-```bash
-# postgres only
-docker compose up -d postgres
-
-# backend — reads backend/.env automatically
-cd backend && ./gradlew bootRun   # localhost:8080
-
-# frontend
-cd frontend && npm run dev        # localhost:3000
-```
-
-### backend/.env
-
-```env
-DB_URL=jdbc:postgresql://localhost:5432/chaenii
-DB_USERNAME=chaenii
-DB_PASSWORD=chaenii
-
-ADMIN_USERNAME=chaenii
-ADMIN_PASSWORD=your-password
-
-JWT_SECRET=dev-secret-replace-in-production-must-be-32-chars!!
-
-SPRING_PROFILES_ACTIVE=prod
-```
-
-Admin: `localhost:3000/admin`
-
----
-
-## Frontend Deployment (S3 + CloudFront)
-
-### 1. S3 버킷 생성
-
-- 버킷명: `chaenii.me` (또는 원하는 이름)
-- 퍼블릭 액세스 차단: **전체 차단**
-- 정적 웹사이트 호스팅: 비활성화 (CloudFront OAC 사용)
-
-### 2. CloudFront 배포 생성
-
-- Origin: S3 버킷 (OAC 연결)
-- Viewer protocol policy: Redirect HTTP to HTTPS
-- Default root object: `index.html`
-- **Error pages**: 403/404 → `/index.html` (HTTP 200)
-- **CloudFront Function** (Viewer Request): URL rewrite — `/admin/` → `/admin/index.html` 등 SPA 라우팅 지원
-- Response Headers Policy: `infra/cf-security-headers.json` 참고해서 생성
-
-### 3. S3 버킷 정책 적용
-
-`infra/s3-bucket-policy.json`의 `YOUR_BUCKET_NAME`, `YOUR_ACCOUNT_ID`, `YOUR_CF_DIST_ID` 를 실제 값으로 교체 후 버킷 정책에 붙여넣기.
-
-### 4. DNS 설정 (Route 53)
-
-```
-chaenii.me     A    ALIAS → CloudFront 도메인
-www.chaenii.me CNAME       chaenii.me
-```
-
-CloudFront 배포 → Alternate domain names에 `chaenii.me`, `www.chaenii.me` 추가.  
-ACM 인증서는 **us-east-1** 에서 발급 (CloudFront 요구사항).
-
----
-
-## Backend Deployment (ECR + ECS Fargate)
-
-### 인프라 정보
-
-| 항목 | 값 |
-| ---- | -- |
-| ECR 레포지토리 | `513244434485.dkr.ecr.ap-northeast-2.amazonaws.com/chaenii-backend` |
-| ECS 클러스터 | `dearmi-cluster` |
-| ECS 서비스 | `chaenii-service` |
-| AWS 리전 | `ap-northeast-2` |
-
-### ECS 태스크 정의 환경변수
-
-ECS 태스크 정의에 아래 환경변수를 설정해야 합니다.  
-민감한 값은 Secrets Manager 또는 ECS secrets 참조를 권장합니다.
-
-```
-DB_URL=jdbc:postgresql://<RDS_ENDPOINT>:5432/chaenii_db
-DB_USERNAME=postgres
-DB_PASSWORD=<secret>
-
-ADMIN_USERNAME=<secret>
-ADMIN_PASSWORD=<secret>
-
-JWT_SECRET=<secret, 32자 이상>
-
-CORS_ALLOWED_ORIGINS=https://chaenii.me,https://www.chaenii.me
-
-SPRING_PROFILES_ACTIVE=prod
-```
-
-### 배포
-
-`backend/**` 변경 후 `main` 브랜치에 push하면 자동 배포.
-
-1. Docker 이미지 빌드 → ECR 푸시 (`<git-sha>` 태그 + `latest` 태그)
-2. `ecs update-service --force-new-deployment` 으로 롤링 교체
-
----
-
-## GitHub Secrets
-
-| Secret                  | 용도                                    |
-| ----------------------- | --------------------------------------- |
-| `AWS_ACCESS_KEY_ID`     | 프론트/백엔드 공용 IAM 키               |
-| `AWS_SECRET_ACCESS_KEY` | 프론트/백엔드 공용 IAM 시크릿           |
-| `S3_BUCKET`             | 프론트 S3 버킷 이름                     |
-| `CF_DIST_ID`            | CloudFront 배포 ID                      |
-| `NEXT_PUBLIC_API_URL`   | 백엔드 API URL (`https://...`)          |
-
-IAM 최소 권한:
-- `s3:PutObject`, `s3:DeleteObject`, `s3:ListBucket` — 버킷 한정
-- `cloudfront:CreateInvalidation` — CF 배포 한정
-- `ecr:GetAuthorizationToken`, `ecr:BatchCheckLayerAvailability`, `ecr:PutImage`, `ecr:InitiateLayerUpload`, `ecr:UploadLayerPart`, `ecr:CompleteLayerUpload` — ECR 레포 한정
-- `ecs:UpdateService` — ECS 서비스 한정
+<sub>Built by <b>Chaeyeon Seo</b> · 1인 풀스택</sub>
