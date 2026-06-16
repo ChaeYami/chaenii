@@ -4,6 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 
 import { useProject } from "@/hooks/useProjects";
@@ -79,7 +80,7 @@ export default function ProjectDetailClient() {
           <article className="prose-invert mt-12 max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight]}
+              rehypePlugins={[rehypeRaw, rehypeHighlight]}
               components={{
                 h2: ({ children }) => (
                   <h2 id={headingId(children)} className="mt-10 mb-4 text-2xl font-bold text-text-primary">{children}</h2>
@@ -116,6 +117,16 @@ export default function ProjectDetailClient() {
               >
                 {children}
               </a>
+            ),
+            details: ({ children }) => (
+              <details className="group mb-4 rounded-lg border border-border bg-surface-2/40 px-4 py-3 [&[open]>summary]:mb-3">
+                {children}
+              </details>
+            ),
+            summary: ({ children }) => (
+              <summary className="cursor-pointer select-none font-medium text-text-primary marker:text-text-secondary hover:opacity-80">
+                {children}
+              </summary>
             ),
             hr: () => <hr className="my-8 border-border" />,
             strong: ({ children }) => (
