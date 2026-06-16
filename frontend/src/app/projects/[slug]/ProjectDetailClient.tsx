@@ -108,16 +108,28 @@ export default function ProjectDetailClient() {
                 {children}
               </pre>
             ),
-            a: ({ href, children }) => (
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-purple underline underline-offset-2 hover:opacity-80"
-              >
-                {children}
-              </a>
-            ),
+            a: ({ href, children }) => {
+              const isAnchor = typeof href === "string" && href.startsWith("#");
+              return (
+                <a
+                  href={href}
+                  {...(isAnchor
+                    ? {
+                        onClick: (e) => {
+                          e.preventDefault();
+                          const id = decodeURIComponent(href.slice(1));
+                          document
+                            .getElementById(id)
+                            ?.scrollIntoView({ behavior: "smooth" });
+                        },
+                      }
+                    : { target: "_blank", rel: "noopener noreferrer" })}
+                  className="text-purple underline underline-offset-2 hover:opacity-80"
+                >
+                  {children}
+                </a>
+              );
+            },
             details: ({ children }) => (
               <details className="group mb-4 rounded-lg border border-border bg-surface-2/40 px-4 py-3 [&[open]>summary]:mb-3">
                 {children}
