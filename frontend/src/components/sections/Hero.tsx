@@ -82,7 +82,7 @@ export default function Hero() {
             <a href="https://github.com/ChaeYami" target="_blank" rel="noopener noreferrer">
               <Button variant="default">GitHub</Button>
             </a>
-            <a href="https://chaeyami.tistory.com/" target="_blank" rel="noopener noreferrer">
+            <a href="https://blog.chaenii.me/" target="_blank" rel="noopener noreferrer">
               <Button variant="default">Blog</Button>
             </a>
             <a href="mailto:ssallyseo@gmail.com">
